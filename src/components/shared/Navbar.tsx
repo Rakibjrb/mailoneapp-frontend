@@ -41,7 +41,6 @@ export default function Navbar(): JSX.Element {
   return (
     <div className="flex items-center justify-between max-w-6xl mx-auto w-full py-6 px-4 xl:px-0">
       <div className="flex items-center gap-3">
-        <div className="rounded-md bg-white/10 text-white p-2">📬</div>
         <Link href="/" className="text-white font-semibold text-lg">
           MailOne
         </Link>
