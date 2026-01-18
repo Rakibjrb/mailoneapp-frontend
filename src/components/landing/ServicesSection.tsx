@@ -12,25 +12,25 @@ const ServicesSection = () => {
         {
             title: "Customized Templates",
             description: "Create and customize email templates to match your brand and messaging.",
-            icon: <LayoutOutlined className="text-4xl text-orange-400" />,
+            icon: <LayoutOutlined className="text-4xl text-orange-400!" />,
             gradient: "from-orange-500/20 to-red-500/20"
         },
         {
             title: "Send emails",
             description: "Send emails with ease with our user-friendly interface and industry-leading reliability, compliance, and speed.",
-            icon: <RocketOutlined className="text-4xl text-blue-400" />,
+            icon: <RocketOutlined className="text-4xl text-blue-400!" />,
             gradient: "from-blue-500/20 to-cyan-500/20"
         },
         {
             title: "Secure Sending",
             description: "Enterprise-grade encryption and security protocols to keep your data and your customers safe.",
-            icon: <SafetyCertificateOutlined className="text-4xl text-purple-400" />,
+            icon: <SafetyCertificateOutlined className="text-4xl text-purple-400!" />,
             gradient: "from-purple-500/20 to-pink-500/20"
         },
         {
             title: "Real-time Analytics",
             description: "Track opens, clicks, and bounces in real-time with our comprehensive dashboard and reporting.",
-            icon: <BarChartOutlined className="text-4xl text-emerald-400" />,
+            icon: <BarChartOutlined className="text-4xl text-emerald-400!" />,
             gradient: "from-emerald-500/20 to-teal-500/20"
         },
 
