@@ -2,6 +2,7 @@ import HeroSection from "@/components/landing/HeroSection";
 import ServicesSection from "@/components/landing/ServicesSection";
 import EasyStepsSection from "@/components/landing/EasyStepsSection";
 import LetsGetStarted from "@/components/landing/LetsGetStarted";
+import ReviewsSection from "@/components/landing/ReviewsSection";
 
 const Home = () => (
   <main className="relative">
@@ -10,6 +11,7 @@ const Home = () => (
     <HeroSection />
     <ServicesSection />
     <EasyStepsSection />
+    <ReviewsSection />
     <LetsGetStarted />
   </main>
 );
