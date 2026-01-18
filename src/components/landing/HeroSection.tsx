@@ -3,9 +3,9 @@ import { ArrowRightOutlined, BookOutlined } from "@ant-design/icons";
 
 const HeroSection = () => {
     return (
-        <section className="relative flex flex-col items-center justify-center py-20 lg:py-32 px-4 overflow-hidden">
+        <section className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden pt-8">
             {/* Background Effects */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full pointer-events-none -z-10" />
+            <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full pointer-events-none -z-10" />
 
             <div className="max-w-4xl mx-auto text-center space-y-8 z-10">
                 {/* Eyebrow */}
