@@ -11,7 +11,7 @@ const HeroSection = () => {
                 </h3>
 
                 {/* Main Title */}
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-white/60 leading-[1.1] pb-2 drop-shadow-sm">
+                <h1 className="text-5xl md:text-7xl xl:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-white/60 leading-[1.1] pb-2 drop-shadow-sm">
                     Transactional Email <br className="hidden md:block" />
                     Delivery Service
                 </h1>
@@ -35,7 +35,7 @@ const HeroSection = () => {
 
                     <Link
                         href="/docs"
-                        className="group inline-flex h-12 items-center justify-center rounded-full border border-slate-700 bg-slate-900/50 px-8 font-medium text-slate-300 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800 hover:text-white hover:border-slate-600"
+                        className="group inline-flex h-14 items-center justify-center rounded-full border border-slate-700 bg-slate-900/50 px-8 font-medium text-slate-300 backdrop-blur-sm transition-all duration-300 hover:bg-slate-800 hover:text-white hover:border-slate-600"
                     >
                         <BookOutlined className="mr-2" />
                         <span>View Docs</span>

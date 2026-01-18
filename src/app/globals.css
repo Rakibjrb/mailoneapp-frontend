@@ -1,29 +1,21 @@
-@import "antd/dist/reset.css";
 @import "tailwindcss";
 
 /* 🌙 App background gradients */
 :root {
   /* Light and dark gradient tokens (adjust colors as needed) */
   --app-bg-gradient-light: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
-  --app-bg-gradient-dark: linear-gradient(
-    135deg,
-    #071026 0%,
-    #001221 50%,
-    #05040a 100%
-  );
-}
-
-/* Make sure the page fills the viewport */
-html,
-body,
-#__next {
-  height: 100%;
+  --app-bg-gradient-dark: linear-gradient(135deg,
+      #071026 0%,
+      #001221 50%,
+      #05040a 100%);
 }
 
 /* Default (light) background */
 body {
   background: var(--app-bg-gradient-light);
-  background-attachment: fixed; /* keeps gradient stationary */
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  /* keeps gradient stationary */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -34,37 +26,4 @@ body {
     background: var(--app-bg-gradient-dark);
     color: #e6eef8;
   }
-}
-
-/* Dark mode using the "dark" class on <html> or <body> */
-html.dark body,
-body.dark {
-  background: var(--app-bg-gradient-dark);
-  color: #e6eef8;
-}
-
-/* Subtle overlay to give depth in dark mode */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-      800px 400px at 10% 10%,
-      rgba(99, 102, 241, 0.06),
-      transparent 10%
-    ),
-    radial-gradient(
-      600px 300px at 90% 90%,
-      rgba(79, 70, 229, 0.04),
-      transparent 10%
-    );
-  mix-blend-mode: overlay;
-  z-index: 0;
-}
-
-/* Ensure page content sits above the overlay */
-body > * {
-  position: relative;
-  z-index: 1;
 }
