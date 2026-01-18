@@ -13,7 +13,7 @@ const HeroSection = () => {
                 {/* Main Title */}
                 <h1 className="text-5xl md:text-7xl xl:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-white/60 leading-[1.1] pb-2 drop-shadow-sm">
                     Transactional Email <br className="hidden md:block" />
-                    Delivery Service
+                    <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-500">Delivery Service</span>
                 </h1>
 
                 {/* Description - Optional but good for design balance */}
