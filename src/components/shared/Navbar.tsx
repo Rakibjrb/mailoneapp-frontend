@@ -66,11 +66,11 @@ export default function Navbar(): JSX.Element {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? "bg-slate-900/80 backdrop-blur-md shadow-lg py-4"
-          : "bg-transparent py-6"
+        ? "bg-slate-900/80 backdrop-blur-md shadow-lg py-4"
+        : "bg-transparent py-6"
         }`}
     >
-      <div className="flex items-center justify-between max-w-6xl mx-auto w-full px-4 xl:px-0">
+      <div className="flex items-center justify-between max-w-7xl mx-auto w-full px-4 xl:px-0">
         <div className="flex items-center gap-3">
           <Link href="/" className="text-white font-bold text-xl tracking-tight">
             Mail<span className="text-blue-500">ONE</span>

@@ -46,7 +46,7 @@ const Footer = () => {
 
     return (
         <footer className="bg-slate-950 border-t border-slate-900 font-sans z-10 relative">
-            <div className="max-w-6xl mx-auto px-4 xl:px-0 pt-16 pb-8">
+            <div className="max-w-7xl mx-auto px-4 xl:px-0 pt-16 pb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
                     {/* Brand Column */}
                     <div className="space-y-6">
@@ -72,7 +72,7 @@ const Footer = () => {
                     {/* Link Columns */}
                     {footerSections.map((section) => (
                         <div key={section.title}>
-                            <h4 className="text-white font-semibold !mb-9">
+                            <h4 className="text-white font-semibold mb-9!">
                                 {section.title}
                             </h4>
                             <ul className="space-y-4">

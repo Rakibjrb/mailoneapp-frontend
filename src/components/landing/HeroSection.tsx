@@ -3,10 +3,7 @@ import { ArrowRightOutlined, BookOutlined } from "@ant-design/icons";
 
 const HeroSection = () => {
     return (
-        <section className="relative flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden pt-8">
-            {/* Background Effects */}
-            <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full pointer-events-none -z-10" />
-
+        <section className="flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden pt-8">
             <div className="max-w-4xl mx-auto text-center space-y-8 z-10">
                 {/* Eyebrow */}
                 <h3 className="text-sm md:text-base font-bold tracking-[0.2em] text-blue-400 uppercase animate-fade-in-up">
@@ -14,7 +11,7 @@ const HeroSection = () => {
                 </h3>
 
                 {/* Main Title */}
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60 leading-[1.1] pb-2 drop-shadow-sm">
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-transparent bg-clip-text bg-linear-to-b from-white to-white/60 leading-[1.1] pb-2 drop-shadow-sm">
                     Transactional Email <br className="hidden md:block" />
                     Delivery Service
                 </h1>
@@ -33,7 +30,7 @@ const HeroSection = () => {
                     >
                         <span className="mr-2">Get Started</span>
                         <ArrowRightOutlined className="transition-transform group-hover:translate-x-1" />
-                        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                        <div className="absolute inset-0 -z-10 bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </Link>
 
                     <Link
