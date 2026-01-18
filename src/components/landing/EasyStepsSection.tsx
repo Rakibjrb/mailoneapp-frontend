@@ -2,7 +2,8 @@
 
 import {
     UserAddOutlined,
-    ApiOutlined,
+    LoginOutlined,
+    FileTextOutlined,
     SendOutlined,
 } from "@ant-design/icons";
 
@@ -15,20 +16,21 @@ const EasyStepsSection = () => {
             color: "blue"
         },
         {
-            title: "Get API Keys",
-            description: "Generate your secure API credentials from the dashboard to authenticate your requests.",
-            icon: <ApiOutlined />,
-            color: "purple"
-        },
-        {
-            title: "Integrate SD",
-            description: "Install our SDK or use standard SMTP to connect your application to our mail servers.",
-            icon: <ApiOutlined />,
+            title: "Login & Setup",
+            description: "Login to your account and setup your app.",
+            icon: <LoginOutlined />,
             color: "pink"
         },
         {
-            title: "Start Sending",
-            description: "You're all set! Start sending transactional emails with high deliverability speeds.",
+            title: "Start with Default Template",
+            description: "Use our pre-built templates to send emails instantly without any coding required.",
+            icon: <FileTextOutlined />,
+            color: "purple"
+        },
+
+        {
+            title: "Send Email",
+            description: "Send your first email in less than 5 minutes.",
             icon: <SendOutlined />,
             color: "emerald"
         },
