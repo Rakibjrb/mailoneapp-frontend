@@ -28,7 +28,7 @@ export default function DocsPage() {
                         <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-indigo-500">Under Construction</span>
                     </h1>
                     <p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto leading-relaxed font-light">
-                        We're busy crafting the most detailed and developer & user friendly documentation you've ever seen.
+                        We&apos;re busy crafting the most detailed and developer & user friendly documentation you&apos;ve ever seen.
                         Stay tuned for a revolutionary way to manage your transactional emails.
                     </p>
                 </div>

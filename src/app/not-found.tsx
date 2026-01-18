@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeftOutlined, HomeOutlined } from "@ant-design/icons";
 
 export default function NotFound() {
@@ -22,7 +23,7 @@ export default function NotFound() {
                     </h1>
 
                     <p className="text-lg md:text-xl text-slate-400 max-w-md mx-auto md:mx-0 leading-relaxed font-light">
-                        Oops! It seems like this email was delivered to an address that doesn't exist. The page you're looking for might have been moved or doesn't exist anymore.
+                        Oops! It seems like this email was delivered to an address that doesn&apos;t exist. The page you&apos;re looking for might have been moved or doesn&apos;t exist anymore.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
@@ -51,9 +52,11 @@ export default function NotFound() {
                         {/* Ambient Glow behind image */}
                         <div className="absolute inset-0 bg-blue-500/20 blur-[60px] rounded-full scale-110" />
 
-                        <img
+                        <Image
                             src="/assets/images/not-found.png"
                             alt="404 Illustration"
+                            width={500}
+                            height={500}
                             className="relative z-10 w-full max-w-[500px] h-auto rounded-[3rem] shadow-2xl border border-slate-700/50 object-cover"
                         />
 

@@ -48,7 +48,7 @@ const EasyStepsSection = () => {
                         Get started in minutes
                     </h2>
                     <p className="text-slate-400 text-lg">
-                        We've optimized the process to be as simple as possible.
+                        We&apos;ve optimized the process to be as simple as possible.
                         Go from signup to sending your first email in under 5 minutes.
                     </p>
                 </div>

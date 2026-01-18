@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Thumbs, EffectFade, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
+import Image from "next/image";
 import { StarFilled, LeftOutlined, RightOutlined } from "@ant-design/icons";
 
 // Import Swiper styles
@@ -106,9 +107,11 @@ const ReviewsSection = () => {
                         >
                             {reviews.map((review) => (
                                 <SwiperSlide key={review.id} className="relative">
-                                    <img
+                                    <Image
                                         src={review.image}
                                         alt={review.name}
+                                        width={800}
+                                        height={600}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="testimonial-gradient absolute bottom-0 left-0 right-0 p-10 text-white">
@@ -147,7 +150,7 @@ const ReviewsSection = () => {
 
                         {/* Dynamic Content */}
                         <div className="relative">
-                            <span className="absolute -top-10 -left-6 text-8xl text-blue-500/10 font-serif select-none">"</span>
+                            <span className="absolute -top-10 -left-6 text-8xl text-blue-500/10 font-serif select-none">&quot;</span>
                             <h2 className="text-justify text-lg md:text-xl font-bold text-white leading-[1.3] min-h-[160px] transition-all duration-500">
                                 {reviews[activeIndex].reviewContent}
                             </h2>
@@ -167,9 +170,11 @@ const ReviewsSection = () => {
                             {reviews.map((review) => (
                                 <SwiperSlide key={review.id} className="w-auto! cursor-pointer">
                                     <div className="relative group/thumb">
-                                        <img
+                                        <Image
                                             src={review.thumb}
                                             alt={review.name}
+                                            width={64}
+                                            height={64}
                                             className="thumb-avatar w-16 h-16 rounded-full object-cover opacity-40 hover:opacity-100 transition-all duration-300 border-2 border-transparent grayscale hover:grayscale-0"
                                         />
                                         <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-xs py-1 px-3 rounded opacity-0 group-hover/thumb:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-700">

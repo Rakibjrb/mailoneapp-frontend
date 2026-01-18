@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dropdown, Avatar, theme } from "antd";
+import { Dropdown, Avatar } from "antd";
 import { UserOutlined, LoginOutlined, UserAddOutlined } from "@ant-design/icons";
 import React, { JSX, useMemo, useState, useEffect } from "react";
 
 export default function Navbar(): JSX.Element {
   const pathname = usePathname();
-  const { token } = theme.useToken();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {

@@ -3,7 +3,6 @@ import {
     TeamOutlined,
     ThunderboltOutlined,
     SafetyOutlined,
-    GlobalOutlined,
     CheckCircleOutlined,
     RocketOutlined,
     LayoutOutlined,
@@ -11,6 +10,7 @@ import {
     SafetyCertificateOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
+import Image from "next/image";
 
 const AboutPage = () => {
     return (
@@ -45,7 +45,7 @@ const AboutPage = () => {
                             We exist to solve the complexity of <span className="text-blue-500">email infrastructure</span> for you.
                         </h2>
                         <p className="text-lg text-slate-400 leading-relaxed">
-                            Sending emails shouldn't be hard. Whether you're a startup sending your first welcome email
+                            Sending emails shouldn&apos;t be hard. Whether you&apos;re a startup sending your first welcome email
                             or an enterprise delivering millions of notifications, MailOne provides the tools and
                             scalability to ensure every message reaches its destination.
                         </p>
@@ -65,9 +65,11 @@ const AboutPage = () => {
                     </div>
                     <div className="relative">
                         <div className="aspect-square rounded-[3rem] overflow-hidden border border-slate-800 shadow-2xl relative animate-float">
-                            <img
+                            <Image
                                 src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop"
                                 alt="Team Working"
+                                width={800}
+                                height={800}
                                 className="w-full h-full object-cover"
                             />
                             <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-transparent to-transparent opacity-60" />
