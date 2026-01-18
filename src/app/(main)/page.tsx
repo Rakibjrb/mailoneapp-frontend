@@ -1,8 +1,18 @@
+import HeroSection from "@/components/landing/HeroSection";
+import ServicesSection from "@/components/landing/ServicesSection";
+import EasyStepsSection from "@/components/landing/EasyStepsSection";
+import LetsGetStarted from "@/components/landing/LetsGetStarted";
+import ReviewsSection from "@/components/landing/ReviewsSection";
+
 const Home = () => (
-  <main className="h-[calc(100vh-110px)] flex-1 flex items-center justify-center w-full">
-    <h1 className="text-3xl md:text-8xl lg:text-9xl font-extrabold text-white tracking-tight">
-      Launching Soon
-    </h1>
+  <main className="relative">
+    {/* Background Effects */}
+    <div className="fixed top-36 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full pointer-events-none -z-10" />
+    <HeroSection />
+    <ServicesSection />
+    <EasyStepsSection />
+    <ReviewsSection />
+    <LetsGetStarted />
   </main>
 );
 
