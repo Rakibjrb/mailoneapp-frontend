@@ -4,4 +4,10 @@ type AuthLogin = {
     remember: boolean;
 }
 
-export type { AuthLogin }
+type AuthSignup = {
+    name: string;
+    email: string;
+    password: string;
+}
+
+export type { AuthLogin, AuthSignup }

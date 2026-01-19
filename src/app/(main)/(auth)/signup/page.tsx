@@ -1,18 +1,18 @@
 "use client";
 
 import React from "react";
-import { Form, Input, Button, Checkbox, Divider, Typography, ConfigProvider, theme } from "antd";
-import { GoogleOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Divider, Typography, ConfigProvider, theme } from "antd";
+import { GoogleOutlined, MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { JSX } from "react";
-import { AuthLogin } from "../../../../../types/auth.types";
+import { AuthSignup } from "../../../../../types/auth.types";
 
 const { Title, Text, Paragraph } = Typography;
 
-export default function LoginPage(): JSX.Element {
+export default function SignupPage(): JSX.Element {
     const [form] = Form.useForm();
 
-    const onFinish = (values: AuthLogin) => {
+    const onFinish = (values: AuthSignup) => {
         console.log("Success:", values);
     };
 
@@ -39,8 +39,8 @@ export default function LoginPage(): JSX.Element {
         >
             <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 relative overflow-hidden py-32">
                 {/* Animated Background Orbs */}
-                <div className="absolute top-1/4 -left-20 w-80 h-80 bg-blue-600/10 blur-[120px] rounded-full animate-pulse" />
-                <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-indigo-600/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/4 -right-20 w-80 h-80 bg-blue-600/10 blur-[120px] rounded-full animate-pulse" />
+                <div className="absolute bottom-1/4 -left-20 w-80 h-80 bg-indigo-600/10 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '1s' }} />
 
                 <div className="w-full max-w-[500px] relative z-10">
 
@@ -58,10 +58,10 @@ export default function LoginPage(): JSX.Element {
                                 </span>
                             </div>
                             <Title level={1} className="mb-2! text-white! text-3xl! font-extrabold! tracking-tight">
-                                Welcome Back
+                                Create Account
                             </Title>
                             <Paragraph className="text-slate-400 text-base">
-                                Great to see you again! Please enter your details.
+                                Start managing your emails more effectively today.
                             </Paragraph>
                         </div>
 
@@ -70,23 +70,34 @@ export default function LoginPage(): JSX.Element {
                             block
                             className="flex! items-center justify-center gap-3 bg-white! text-slate-900! hover:bg-slate-100! border-none! h-[56px]! rounded-2xl! transition-all duration-300 shadow-xl shadow-black/10"
                         >
-                            <span className="text-base font-bold">Sign in with Google</span>
+                            <span className="text-base font-bold">Sign up with Google</span>
                         </Button>
 
                         <Divider className="border-slate-800/60! my-10!">
-                            <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4">OR CONTINUE WITH EMAIL</span>
+                            <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] px-4">OR REGISTER WITH EMAIL</span>
                         </Divider>
 
                         <Form
                             form={form}
-                            name="login"
+                            name="signup"
                             layout="vertical"
-                            initialValues={{ remember: true }}
                             onFinish={onFinish}
                             autoComplete="off"
                             requiredMark={false}
                             className="space-y-4"
                         >
+                            <Form.Item
+                                name="name"
+                                label={<span className="text-slate-300 text-sm font-bold ml-1">Full Name</span>}
+                                rules={[{ required: true, message: "Full name is required" }]}
+                            >
+                                <Input
+                                    prefix={<UserOutlined className="text-slate-500 mr-2" />}
+                                    placeholder="John Doe"
+                                    className="rounded-2xl! bg-slate-950/40! border-slate-800! hover:border-blue-500/50! focus:border-blue-500! transition-all text-white! placeholder:text-slate-600"
+                                />
+                            </Form.Item>
+
                             <Form.Item
                                 name="email"
                                 label={<span className="text-slate-300 text-sm font-bold ml-1">Email Address</span>}
@@ -104,12 +115,11 @@ export default function LoginPage(): JSX.Element {
 
                             <Form.Item
                                 name="password"
-                                label={
-                                    <div className="flex justify-between w-full pr-1">
-                                        <span className="text-slate-300 text-sm font-bold ml-1">Password</span>
-                                    </div>
-                                }
-                                rules={[{ required: true, message: "Password is required" }]}
+                                label={<span className="text-slate-300 text-sm font-bold ml-1">Password</span>}
+                                rules={[
+                                    { required: true, message: "Password is required" },
+                                    { min: 6, message: "Password must be at least 6 characters" }
+                                ]}
                             >
                                 <Input.Password
                                     prefix={<LockOutlined className="text-slate-500 mr-2" />}
@@ -118,20 +128,6 @@ export default function LoginPage(): JSX.Element {
                                 />
                             </Form.Item>
 
-                            <div className="flex items-center justify-between mt-2! mb-6">
-                                <Form.Item name="remember" valuePropName="checked" className="mb-0!">
-                                    <Checkbox className="text-slate-400 text-sm font-semibold hover:text-slate-300 transition-colors [&_.ant-checkbox-inner]:bg-slate-950/50! [&_.ant-checkbox-inner]:border-slate-800!">
-                                        Remember for 30 days
-                                    </Checkbox>
-                                </Form.Item>
-                                <Link
-                                    href="/forgot-password"
-                                    className="text-blue-500 hover:text-blue-400 text-sm font-bold"
-                                >
-                                    Forgot password?
-                                </Link>
-                            </div>
-
                             <Form.Item className="mt-8! mb-0!">
                                 <Button
                                     type="primary"
@@ -139,19 +135,19 @@ export default function LoginPage(): JSX.Element {
                                     block
                                     className="h-[56px]! rounded-2xl! text-base! bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border-none shadow-lg shadow-blue-600/20 active:scale-[0.98] transition-all"
                                 >
-                                    Sign In to Account
+                                    Create Account
                                 </Button>
                             </Form.Item>
                         </Form>
 
                         <div className="text-center mt-10">
                             <Text className="text-slate-500 font-semibold">
-                                {"Don't"} have an account?{" "}
+                                Already have an account?{" "}
                                 <Link
-                                    href="/signup"
+                                    href="/login"
                                     className="text-blue-500 hover:text-blue-400 font-bold ml-1 transition-colors underline-offset-4 hover:underline"
                                 >
-                                    Sign up for free
+                                    Sign in
                                 </Link>
                             </Text>
                         </div>
