@@ -10,20 +10,8 @@
       #05040a 100%);
 }
 
-/* Default (light) background */
+/* default dark background */
 body {
-  background: var(--app-bg-gradient-light);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  /* keeps gradient stationary */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Dark mode using the user preference */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: var(--app-bg-gradient-dark);
-    color: #e6eef8;
-  }
+  background: var(--app-bg-gradient-dark);
+  color: #e6eef8;
 }
