@@ -1,32 +1,31 @@
 "use client";
 
 import React from "react";
-import { Card, Table, Tag, Space, Button, Input } from "antd";
-import { SearchOutlined, ReloadOutlined, FilterOutlined } from "@ant-design/icons";
+import { Card, Table, Button, Input } from "antd";
+import type { ColumnsType } from "antd/es/table";
+import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined } from "@ant-design/icons";
+
+interface DataType {
+    key: string;
+    name: string;
+    email: string;
+    date: string;
+    selected: boolean;
+}
 
 const AllMailPage = () => {
-    const columns = [
+    const columns: ColumnsType<DataType> = [
         {
-            title: 'Subject',
-            dataIndex: 'subject',
-            key: 'subject',
-            render: (text: string) => <span className="text-white font-medium">{text}</span>,
-        },
-        {
-            title: 'Recipient',
-            dataIndex: 'recipient',
-            key: 'recipient',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
             render: (text: string) => <span className="text-slate-300">{text}</span>,
         },
         {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            render: (status: string) => (
-                <Tag color={status === 'Sent' ? 'blue' : 'orange'} className="rounded-full px-3">
-                    {status}
-                </Tag>
-            ),
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            render: (text: string) => <span className="text-slate-300">{text}</span>,
         },
         {
             title: 'Date',
@@ -37,29 +36,30 @@ const AllMailPage = () => {
         {
             title: 'Action',
             key: 'action',
-            render: () => (
-                <Space size="middle">
-                    <Button type="link" className="text-blue-400 p-0">View</Button>
-                    <Button type="link" className="text-rose-400 p-0">Delete</Button>
-                </Space>
-            ),
+            align: "right",
+            render: (record: DataType) => <div className="flex gap-3 items-center justify-end">
+                <Button className="text-blue-400! px-4! py-1! hover:text-blue-500!">{record.selected ? "Unselect" : "Select"}</Button>
+                <Button className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
+                    <DeleteOutlined />
+                </Button>
+            </div>
         },
     ];
 
     const data = [
         {
-            key: '1',
-            subject: 'Welcome to MailONE',
-            recipient: 'user@example.com',
-            status: 'Sent',
+            key: "1",
+            name: "Rakibul Hasan",
+            email: 'user@example.com',
             date: '2024-03-20 10:30',
+            selected: true,
         },
         {
-            key: '2',
-            subject: 'Monthly Newsletter',
-            recipient: 'subscribers@list.com',
-            status: 'Pending',
+            key: "2",
+            name: "Refayet Hasan",
+            email: 'subscribers@list.com',
             date: '2024-03-21 14:15',
+            selected: false,
         },
     ];
 
@@ -71,26 +71,28 @@ const AllMailPage = () => {
                     <p className="text-slate-400">View and manage all your sent and received emails.</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button icon={<ReloadOutlined />} className="bg-slate-800 border-slate-700 text-slate-300" />
-                    <Button icon={<FilterOutlined />} className="bg-slate-800 border-slate-700 text-slate-300">Filter</Button>
+                    <Button icon={<ReloadOutlined />} className="bg-slate-800! border-slate-700! text-slate-300! hover:bg-slate-700! hover:border-slate-600! hover:text-slate-200!" />
+                    <Button icon={<FilterOutlined />} className="bg-slate-800! border-slate-700! text-slate-300! hover:bg-slate-700! hover:border-slate-600! hover:text-slate-200!">Filter</Button>
                 </div>
             </div>
 
-            <Card className="bg-slate-800/40 border-slate-700/50 backdrop-blur-md" bordered={false}>
+            <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!">
                 <div className="mb-4">
                     <Input
-                        prefix={<SearchOutlined className="text-slate-400" />}
-                        placeholder="Search mails..."
-                        className="bg-slate-900/50 border-slate-700 text-white placeholder:text-slate-500 max-w-md"
+                        prefix={<SearchOutlined className="text-slate-400!" />}
+                        placeholder="Search ..."
+                        className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-500! max-w-md!"
                     />
                 </div>
-                <Table
-                    columns={columns}
-                    dataSource={data}
-                    pagination={false}
-                    className="ant-table-premium"
-                    rowClassName="bg-transparent hover:bg-slate-700/20 transition-colors cursor-pointer"
-                />
+                <div className="h-full w-full min-w-[700px]">
+                    <Table
+                        columns={columns}
+                        dataSource={data}
+                        pagination={false}
+                        className="ant-table-premium"
+                        rowClassName="bg-transparent! hover:bg-slate-700/20! transition-colors! cursor-pointer!"
+                    />
+                </div>
             </Card>
         </div>
     );

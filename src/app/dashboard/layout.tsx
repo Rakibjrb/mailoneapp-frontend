@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, ConfigProvider, theme, Badge, Avatar } from "antd";
 import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import Sidebar from "@/components/shared/Dashboard/Sidebar";
@@ -10,6 +10,22 @@ const { Text } = Typography;
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [collapsed, setCollapsed] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                setCollapsed(true);
+            } else {
+                setCollapsed(false);
+            }
+        };
+
+        // Set initial state
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
         <ConfigProvider
