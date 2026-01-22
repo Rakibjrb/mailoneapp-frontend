@@ -65,11 +65,14 @@ const AllMailPage = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-end">
-                <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">All Mails</h1>
-                    <p className="text-slate-400">View and manage all your sent and received emails.</p>
-                </div>
+            <div className="flex justify-between items-end gap-2">
+
+                <Input
+                    prefix={<SearchOutlined className="text-slate-400!" />}
+                    placeholder="Search ..."
+                    className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-500! max-w-md!"
+                />
+
                 <div className="flex gap-2">
                     <Button icon={<ReloadOutlined />} className="bg-slate-800! border-slate-700! text-slate-300! hover:bg-slate-700! hover:border-slate-600! hover:text-slate-200!" />
                     <Button icon={<FilterOutlined />} className="bg-slate-800! border-slate-700! text-slate-300! hover:bg-slate-700! hover:border-slate-600! hover:text-slate-200!">Filter</Button>
@@ -77,14 +80,7 @@ const AllMailPage = () => {
             </div>
 
             <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!">
-                <div className="mb-4">
-                    <Input
-                        prefix={<SearchOutlined className="text-slate-400!" />}
-                        placeholder="Search ..."
-                        className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-500! max-w-md!"
-                    />
-                </div>
-                <div className="h-full w-full min-w-[700px]">
+                <div className="h-full w-full min-w-[640px]">
                     <Table
                         columns={columns}
                         dataSource={data}
