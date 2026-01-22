@@ -15,3 +15,22 @@ body {
   background: var(--app-bg-gradient-dark);
   color: #e6eef8;
 }
+
+/* Sidebar submenu transparent background */
+.ant-menu-dark .ant-menu-sub {
+  background: transparent !important;
+}
+
+.ant-menu-dark .ant-menu-submenu > .ant-menu {
+  background: transparent !important;
+}
+
+.ant-menu-dark .ant-menu-item,
+.ant-menu-dark .ant-menu-submenu-title {
+  background: transparent !important;
+}
+
+.ant-menu-dark .ant-menu-item:hover,
+.ant-menu-dark .ant-menu-submenu-title:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
