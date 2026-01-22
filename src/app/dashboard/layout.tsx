@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography, ConfigProvider, theme, Badge, Avatar } from "antd";
 import { BellOutlined, UserOutlined } from "@ant-design/icons";
 import Sidebar from "@/components/shared/Dashboard/Sidebar";
@@ -10,6 +10,22 @@ const { Text } = Typography;
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [collapsed, setCollapsed] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                setCollapsed(true);
+            } else {
+                setCollapsed(false);
+            }
+        };
+
+        // Set initial state
+        handleResize();
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     return (
         <ConfigProvider
@@ -40,9 +56,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <div className="flex flex-col w-full h-full overflow-y-auto">
                     <div style={{
                         background: 'rgba(15, 23, 42, 0.4)'
-                    }} className="p-4 w-full flex items-center justify-between border-b border-slate-800 backdrop-blur-3xl shrink-0 z-40 sticky top-0">
-                        <div className="text-xl md:text-2xl mb-0! text-white! font-bold tracking-tight">
-                            Dashboard
+                    }} className="p-4 w-full flex items-center justify-end md:justify-between border-b border-slate-800 backdrop-blur-3xl shrink-0 z-40 sticky top-0">
+                        <div className="hidden md:block md:text-xl mb-0! text-white! font-bold tracking-tight">
+                            Welcome to Dashboard
                         </div>
 
                         <div className="flex items-center gap-6">

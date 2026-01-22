@@ -3,13 +3,15 @@
 import React from "react";
 import { Layout, Menu, } from "antd";
 import {
-    DashboardOutlined,
-    InboxOutlined,
-    SendOutlined,
-    FileTextOutlined,
-    DeleteOutlined,
     SettingOutlined,
-    MailOutlined
+    MailOutlined,
+    AppstoreOutlined,
+    FileTextOutlined,
+    EditOutlined,
+    ControlOutlined,
+    DeleteOutlined,
+    PlusOutlined,
+    InboxOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -27,32 +29,49 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
     const menuItems = [
         {
             key: "/dashboard",
-            icon: <DashboardOutlined />,
+            icon: <AppstoreOutlined />,
             label: <Link href="/dashboard">Dashboard</Link>,
         },
         {
-            key: "/dashboard/inbox",
-            icon: <InboxOutlined />,
-            label: <Link href="/dashboard/inbox">Inbox</Link>,
+            key: "/dashboard/mail-management",
+            icon: <MailOutlined />,
+            label: <div>Mail Management</div>,
+            children: [
+                {
+                    key: "/dashboard/mail-management/all-mail",
+                    icon: <InboxOutlined />,
+                    label: <Link href="/dashboard/mail-management/all-mail">All Mail</Link>,
+                },
+                {
+                    key: "/dashboard/mail-management/add-mail",
+                    icon: <PlusOutlined />,
+                    label: <Link href="/dashboard/mail-management/add-mail">Add Mail</Link>,
+                },
+            ]
         },
         {
-            key: "/dashboard/sent",
-            icon: <SendOutlined />,
-            label: <Link href="/dashboard/sent">Sent</Link>,
-        },
-        {
-            key: "/dashboard/drafts",
+            key: "/dashboard/templates",
             icon: <FileTextOutlined />,
-            label: <Link href="/dashboard/drafts">Drafts</Link>,
+            label: <Link href="/dashboard/templates">Templates</Link>,
+        },
+        {
+            key: "/dashboard/customize-template",
+            icon: <EditOutlined />,
+            label: <Link href="/dashboard/customize-template">Customize Template</Link>,
+        },
+        {
+            key: "/dashboard/configurations",
+            icon: <ControlOutlined />,
+            label: <Link href="/dashboard/configurations">Configurations</Link>,
         },
         {
             key: "/dashboard/trash",
             icon: <DeleteOutlined />,
             label: <Link href="/dashboard/trash">Trash</Link>,
         },
-        {
-            type: 'divider' as const,
-        },
+    ];
+
+    const settingsItem = [
         {
             key: "/dashboard/settings",
             icon: <SettingOutlined />,
@@ -67,7 +86,7 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             onCollapse={(value) => setCollapsed(value)}
             trigger={null}
             width={260}
-            collapsedWidth={80}
+            collapsedWidth={60}
             className="h-screen z-50 border-r border-slate-800/50 backdrop-blur-3xl!"
             style={{
                 background: 'rgba(15, 23, 42, 0.4)'
@@ -93,6 +112,20 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
                         mode="inline"
                         selectedKeys={[pathname]}
                         items={menuItems}
+                        className="bg-transparent! border-none!"
+                        style={{
+                            background: 'transparent',
+                        }}
+                    />
+                </div>
+
+                {/* Settings Section - Bottom */}
+                <div className="px-2 pb-4 border-t border-slate-800/50 pt-2">
+                    <Menu
+                        theme="dark"
+                        mode="inline"
+                        selectedKeys={[pathname]}
+                        items={settingsItem}
                         className="bg-transparent! border-none!"
                         style={{
                             background: 'transparent',
