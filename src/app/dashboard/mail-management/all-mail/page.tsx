@@ -79,7 +79,7 @@ const AllMailPage = () => {
                 </div>
             </div>
 
-            <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!">
+            <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!" variant="outlined">
                 <div className="h-full w-full min-w-[640px]">
                     <Table
                         columns={columns}

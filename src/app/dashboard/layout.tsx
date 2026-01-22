@@ -57,8 +57,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                     <div style={{
                         background: 'rgba(15, 23, 42, 0.4)'
                     }} className="p-4 w-full flex items-center justify-end md:justify-between border-b border-slate-800 backdrop-blur-3xl shrink-0 z-40 sticky top-0">
-                        <div className="hidden md:block text-xl md:text-2xl mb-0! text-white! font-bold tracking-tight">
-                            Dashboard
+                        <div className="hidden md:block md:text-xl mb-0! text-white! font-bold tracking-tight">
+                            Welcome to Dashboard
                         </div>
 
                         <div className="flex items-center gap-6">

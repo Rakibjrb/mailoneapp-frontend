@@ -9,7 +9,7 @@ const AddMailPage = () => {
         <div className="min-h-[80vh] flex items-center justify-center p-4">
             <Card
                 className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! w-full max-w-md shadow-2xl md:p-6!"
-                bordered={false}
+                variant="outlined"
             >
                 <div className="mb-8 text-center">
                     <h1 className="text-2xl font-bold text-white mb-2">Add New Mail</h1>
