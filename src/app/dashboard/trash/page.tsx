@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Card, Table, Button, Empty } from "antd";
-import { DeleteOutlined, UndoOutlined } from "@ant-design/icons";
+import { Card, Button, Empty } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 
 const TrashPage = () => {
     return (

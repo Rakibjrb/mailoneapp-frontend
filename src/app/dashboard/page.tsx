@@ -14,7 +14,7 @@ const DashboardPage = () => {
         <div className="space-y-6">
             <div>
                 <h1 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
-                <p className="text-slate-400">Welcome back! Here's what's happening with your mail system.</p>
+                <p className="text-slate-400">Welcome back! {"Here's"} {"what's"} happening with your mail system.</p>
             </div>
 
             <Row gutter={[16, 16]}>

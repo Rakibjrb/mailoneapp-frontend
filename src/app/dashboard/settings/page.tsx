@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Card, Button, Tabs, Form, Input, Switch, Avatar, Divider } from "antd";
-import { UserOutlined, BellOutlined, LockOutlined, GlobalOutlined, SaveOutlined } from "@ant-design/icons";
+import { Card, Button, Tabs } from "antd";
+import { UserOutlined, LockOutlined, SaveOutlined } from "@ant-design/icons";
 import ProfileSettings from "./_components/ProfileSettings";
 import ChangePassword from "./_components/ChangePassword";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card, Result } from "antd";
+import { Result } from "antd";
 import { ControlOutlined } from "@ant-design/icons";
 
 const ConfigurationsPage = () => {
