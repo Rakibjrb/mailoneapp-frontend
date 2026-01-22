@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import StyledComponentsRegistry from "@/lib/AntdRegistry";
+import { ToastProvider } from "@/context/ToastContext";
+import ToastContainer from "@/components/shared/Toast/ToastContainer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -29,7 +31,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <ToastProvider>
+            {children}
+            <ToastContainer />
+          </ToastProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
