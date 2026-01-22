@@ -70,7 +70,7 @@ const AllMailPage = () => {
                 <Input
                     prefix={<SearchOutlined className="text-slate-400!" />}
                     placeholder="Search ..."
-                    className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-500! max-w-md!"
+                    className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-400! max-w-md!"
                 />
 
                 <div className="flex gap-2">
