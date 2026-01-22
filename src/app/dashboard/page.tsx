@@ -8,13 +8,24 @@ import {
     DeleteOutlined,
     InboxOutlined,
 } from "@ant-design/icons";
+import { useToast } from "@/context/ToastContext";
 
 const DashboardPage = () => {
+    const { toast } = useToast();
+
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
-                <p className="text-slate-400">Welcome back! {"Here's"} {"what's"} happening with your mail system.</p>
+            <div className="flex justify-between items-start">
+                <div>
+                    <h1 className="text-3xl font-bold text-white mb-2">Dashboard Overview</h1>
+                    <p className="text-slate-400">Welcome back! {"Here's"} {"what's"} happening with your mail system.</p>
+                </div>
+                <button
+                    onClick={() => toast("This is a custom success toast!", "success", 5000)}
+                    className="px-4 py-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-500/30 rounded-lg transition-all text-sm font-medium"
+                >
+                    Show Demo Toast
+                </button>
             </div>
 
             <Row gutter={[16, 16]}>
