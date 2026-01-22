@@ -1,55 +1,61 @@
 "use client";
 
 import React from "react";
-import { Card, Form, Input, Button, Select, Space, Upload } from "antd";
-import { SendOutlined, SaveOutlined, PaperClipOutlined } from "@ant-design/icons";
-
-const { Option } = Select;
+import { Card, Form, Input, Button, Checkbox } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 
 const AddMailPage = () => {
     return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-3xl font-bold text-white mb-2">Compose Mail</h1>
-                <p className="text-slate-400">Create and send a new email to your recipients.</p>
-            </div>
+        <div className="min-h-[80vh] flex items-center justify-center p-4">
+            <Card
+                className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! w-full max-w-md shadow-2xl md:p-6!"
+                bordered={false}
+            >
+                <div className="mb-8 text-center">
+                    <h1 className="text-2xl font-bold text-white mb-2">Add New Mail</h1>
+                    <p className="text-slate-400 text-sm">Fill in the details to add a new contact to your mail list.</p>
+                </div>
 
-            <Card className="bg-slate-800/40 border-slate-700/50 backdrop-blur-md max-w-4xl" bordered={false}>
-                <Form layout="vertical">
-                    <Form.Item label={<span className="text-slate-300">Recipient Email</span>}>
-                        <Input placeholder="example@mail.com" className="bg-slate-900/50 border-slate-700 text-white" />
+                <Form layout="vertical" className="space-y-4">
+                    <Form.Item
+                        label={<span className="text-slate-300 font-medium">Name</span>}
+                        name="name"
+                        rules={[{ required: true, message: 'Please enter a name' }]}
+                    >
+                        <Input
+                            placeholder="John Doe"
+                            className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-500! h-11"
+                        />
                     </Form.Item>
 
-                    <Form.Item label={<span className="text-slate-300">Subject</span>}>
-                        <Input placeholder="Enter mail subject" className="bg-slate-900/50 border-slate-700 text-white" />
+                    <Form.Item
+                        label={<span className="text-slate-300 font-medium">Email</span>}
+                        name="email"
+                        rules={[
+                            { required: true, message: 'Please enter an email' },
+                            { type: 'email', message: 'Please enter a valid email' }
+                        ]}
+                    >
+                        <Input
+                            placeholder="john@example.com"
+                            className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-500! h-11"
+                        />
                     </Form.Item>
 
-                    <Form.Item label={<span className="text-slate-300">Template</span>}>
-                        <Select placeholder="Select a template (optional)" className="bg-slate-900/50 border-slate-700 text-white">
-                            <Option value="welcome">Welcome Email</Option>
-                            <Option value="newsletter">Monthly Newsletter</Option>
-                            <Option value="promo">Promotional Offer</Option>
-                        </Select>
+                    <Form.Item name="selectByDefault" valuePropName="checked">
+                        <Checkbox className="text-slate-300! hover:text-white! transition-colors">
+                            Select by Default
+                        </Checkbox>
                     </Form.Item>
 
-                    <Form.Item label={<span className="text-slate-300">Message</span>}>
-                        <Input.TextArea rows={8} placeholder="Type your message here..." className="bg-slate-900/50 border-slate-700 text-white" />
-                    </Form.Item>
-
-                    <Form.Item>
-                        <Upload>
-                            <Button icon={<PaperClipOutlined />} className="bg-slate-800 border-slate-700 text-slate-300">
-                                Attach Files
-                            </Button>
-                        </Upload>
-                    </Form.Item>
-
-                    <div className="flex justify-end gap-3 pt-4 border-t border-slate-700/50">
-                        <Button icon={<SaveOutlined />} className="bg-slate-800 border-slate-700 text-slate-300">
-                            Save as Draft
-                        </Button>
-                        <Button type="primary" icon={<SendOutlined />} className="bg-blue-600 border-none px-8">
-                            Send Mail
+                    <div className="pt-1">
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            className="w-full h-11! bg-blue-600! border-none! text-white font-bold hover:bg-blue-500! transition-all shadow-lg shadow-blue-900/20 uppercase"
+                            htmlType="submit"
+                        >
+                            Add Now
                         </Button>
                     </div>
                 </Form>
