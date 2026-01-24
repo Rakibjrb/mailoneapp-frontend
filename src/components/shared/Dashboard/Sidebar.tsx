@@ -11,7 +11,9 @@ import {
     ControlOutlined,
     DeleteOutlined,
     PlusOutlined,
-    InboxOutlined
+    InboxOutlined,
+    LogoutOutlined,
+    HomeOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -77,6 +79,16 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             icon: <SettingOutlined />,
             label: <Link href="/dashboard/settings">Settings</Link>,
         },
+        {
+            key: "/home",
+            icon: <HomeOutlined />,
+            label: <Link href="/">Go to Home</Link>,
+        },
+        {
+            key: "logout",
+            icon: <LogoutOutlined />,
+            label: <button>Logout</button>,
+        }
     ];
 
     return (
