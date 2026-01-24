@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Dropdown, Avatar } from "antd";
 import { UserOutlined, LoginOutlined, UserAddOutlined, AppstoreOutlined, LogoutOutlined } from "@ant-design/icons";
-import React, { JSX, useMemo, useState, useEffect } from "react";
+import React, { JSX, useState, useEffect } from "react";
 
 const onLogout = [
   {
@@ -51,7 +51,7 @@ const onLoggedIn = [
 export default function Navbar(): JSX.Element {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,11 +66,6 @@ export default function Navbar(): JSX.Element {
     { name: "Documentation", href: "/docs" },
     { name: "About", href: "/about" },
   ];
-
-  const profileItems = useMemo(
-    () => loggedIn ? onLoggedIn : onLogout,
-    []
-  );
 
   const popupRender = (menu: React.ReactNode) => (
     <div className="bg-slate-900/90 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl p-2 min-w-[180px]">
@@ -123,7 +118,7 @@ export default function Navbar(): JSX.Element {
         <div className="flex items-center gap-4">
           <Dropdown
             menu={{
-              items: profileItems,
+              items: loggedIn ? onLoggedIn : onLogout,
               className: "!bg-transparent [&>li]:!text-slate-300 [&>li:hover]:!bg-slate-800/50 [&>li:hover]:!text-blue-400"
             }}
             trigger={["click"]}
