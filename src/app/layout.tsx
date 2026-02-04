@@ -4,6 +4,7 @@ import StyledComponentsRegistry from "@/lib/AntdRegistry";
 import { ToastProvider } from "@/context/ToastContext";
 import ToastContainer from "@/components/shared/Toast/ToastContainer";
 import "./globals.css";
+import StoreProvider from "@/lib/providers/StoreProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,12 +32,14 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <StyledComponentsRegistry>
-          <ToastProvider>
-            {children}
-            <ToastContainer />
-          </ToastProvider>
-        </StyledComponentsRegistry>
+        <StoreProvider>
+          <StyledComponentsRegistry>
+            <ToastProvider>
+              {children}
+              <ToastContainer />
+            </ToastProvider>
+          </StyledComponentsRegistry>
+        </StoreProvider>
       </body>
     </html>
   );
