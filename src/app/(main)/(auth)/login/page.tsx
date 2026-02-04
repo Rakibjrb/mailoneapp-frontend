@@ -1,19 +1,49 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Form, Input, Button, Checkbox, Divider, Typography, ConfigProvider, theme } from "antd";
 import { GoogleOutlined, MailOutlined, LockOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { JSX } from "react";
 import { AuthLogin } from "../../../../../types/auth.types";
+import { useLoginMutation } from "@/redux/features/auth/authApi";
+import { useToast } from "@/context/ToastContext";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/features/auth/authSlice";
 
 const { Title, Text, Paragraph } = Typography;
 
 export default function LoginPage(): JSX.Element {
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const { toast } = useToast();
+    const [login] = useLoginMutation();
     const [form] = Form.useForm();
+    const dispatch = useDispatch();
 
-    const onFinish = (values: AuthLogin) => {
-        console.log("Success:", values);
+    const onFinish = async (values: AuthLogin) => {
+        try {
+            setLoading(true);
+            const res = await login(values).unwrap();
+            console.log(res);
+            toast(res.message, "success", 5000);
+
+            dispatch(setUser({
+                user: {
+                    id: "6981ea471f6e363a2d342d26",
+                    email: res.data.email,
+                    name: "Rakibul Hasan",
+                    image: "http://res.cloudinary.com/dj9bzalrb/image/upload/v1770122040/sgaly5ddasttokyoyxjz.png",
+                }, // TODO: get user data from backend now using hardcoded data
+                token: res.data.access_token
+            }));
+            router.push("/dashboard");
+        } catch (error: any) {
+            toast(error.data.message, "error", 5000);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -136,6 +166,7 @@ export default function LoginPage(): JSX.Element {
                                 <Button
                                     type="primary"
                                     htmlType="submit"
+                                    loading={loading}
                                     block
                                     className="h-[56px]! rounded-2xl! text-base! bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border-none shadow-lg shadow-blue-600/20 active:scale-[0.98] transition-all"
                                 >

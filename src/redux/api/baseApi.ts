@@ -3,7 +3,7 @@ import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:8001/api/",
+    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:8001/api",
     credentials: "include",
     prepareHeaders: (headers: Headers, { getState }) => {
         const token = (getState() as RootState).auth.token;
@@ -28,7 +28,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     if (result?.error?.status === 401) {
         const refreshResult: any = await baseQuery(
             {
-                url: 'auth/refresh-token',
+                url: '/auth/refresh-token',
                 method: 'POST',
             },
             api,
