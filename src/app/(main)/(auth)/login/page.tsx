@@ -26,18 +26,17 @@ export default function LoginPage(): JSX.Element {
         try {
             setLoading(true);
             const res = await login(values).unwrap();
-            console.log(res);
-            toast(res.message, "success", 5000);
 
             dispatch(setUser({
                 user: {
-                    id: "6981ea471f6e363a2d342d26",
+                    _id: res.data.user._id,
                     email: res.data.email,
-                    name: "Rakibul Hasan",
-                    image: "http://res.cloudinary.com/dj9bzalrb/image/upload/v1770122040/sgaly5ddasttokyoyxjz.png",
-                }, // TODO: get user data from backend now using hardcoded data
+                    name: res.data.user.name,
+                    image: res.data.user.image || null,
+                },
                 token: res.data.access_token
             }));
+            toast(res.message, "success", 5000);
             router.push("/dashboard");
         } catch (error: any) {
             toast(error.data.message, "error", 5000);
@@ -151,7 +150,7 @@ export default function LoginPage(): JSX.Element {
                             <div className="flex items-center justify-between mt-2! mb-6">
                                 <Form.Item name="remember" valuePropName="checked" className="mb-0!">
                                     <Checkbox className="text-slate-400 text-sm font-semibold hover:text-slate-300 transition-colors [&_.ant-checkbox-inner]:bg-slate-950/50! [&_.ant-checkbox-inner]:border-slate-800!">
-                                        Remember for 30 days
+                                        Remember me
                                     </Checkbox>
                                 </Form.Item>
                                 <Link
