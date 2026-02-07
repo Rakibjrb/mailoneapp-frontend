@@ -5,6 +5,9 @@ import { Form, Input, Button, Typography, ConfigProvider, theme } from "antd";
 import { MailOutlined, LockOutlined, ArrowLeftOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { JSX } from "react";
+import { useRequestOtpMutation, useVerifyOtpMutation, useConfirmResetPasswordMutation } from "@/redux/features/auth/authApi";
+import { useToast } from "@/context/ToastContext";
+import { useRouter } from "next/navigation";
 
 const { Title, Paragraph } = Typography;
 
@@ -13,21 +16,58 @@ type ResetStep = "email" | "otp" | "password";
 export default function ResetPasswordPage(): JSX.Element {
     const [step, setStep] = useState<ResetStep>("email");
     const [email, setEmail] = useState<string>("");
+    const [tempToken, setTempToken] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
+    const [resendLoading, setResendLoading] = useState<boolean>(false);
+    const { toast } = useToast();
+    const router = useRouter();
 
-    const onEmailFinish = (values: { email: string }) => {
-        console.log("Email submitted:", values);
-        setEmail(values.email);
-        setStep("otp");
+    const [requestOtp] = useRequestOtpMutation();
+    const [verifyOtp] = useVerifyOtpMutation();
+    const [confirmResetPassword] = useConfirmResetPasswordMutation();
+
+    const onEmailFinish = async (values: { email: string }) => {
+        step === "email" ? setLoading(true) : setResendLoading(true);
+        try {
+            await requestOtp(values).unwrap();
+            setEmail(values.email);
+            toast("OTP sent successfully, Please check your email", "success");
+            setStep("otp");
+        } catch (error: any) {
+            toast(error?.data?.message || "Something went wrong", "error");
+        } finally {
+            setLoading(false);
+            setResendLoading(false);
+        }
     };
 
-    const onOtpFinish = (values: { otp: string }) => {
-        console.log("OTP submitted:", values);
-        setStep("password");
+    const onOtpFinish = async (values: { otp: string }) => {
+        setLoading(true);
+        try {
+            const res = await verifyOtp({ email, otp: Number(values.otp) }).unwrap();
+            toast("OTP verified successfully", "success");
+            setTempToken(res?.data?.tempToken);
+            setStep("password");
+        } catch (error: any) {
+            toast(error?.data?.message || "Something went wrong", "error");
+        } finally {
+            setLoading(false)
+        }
     };
 
-    const onPasswordFinish = (values: { password: string, confirm_password: string }) => {
-        console.log("Password reset submitted:", values);
-        // Final implementation logic here
+    const onPasswordFinish = async (values: { password: string, confirm_password: string }) => {
+        console.log({ tempToken, newPassword: values.password })
+        setLoading(true);
+        try {
+            await confirmResetPassword({ tempToken, newPassword: values.password }).unwrap();
+            toast("Password reset successfully", "success");
+            toast("Please login with your new password", "success");
+            router.push("/login");
+        } catch (error: any) {
+            toast(error?.data?.message || "Something went wrong", "error");
+        } finally {
+            setLoading(false)
+        }
     };
 
     return (
@@ -130,12 +170,13 @@ export default function ResetPasswordPage(): JSX.Element {
 
                                 <Form.Item className="mt-8! mb-0!">
                                     <Button
+                                        loading={loading}
                                         type="primary"
                                         htmlType="submit"
                                         block
                                         className="h-[56px]! rounded-2xl! text-base! bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border-none shadow-lg shadow-blue-600/20 active:scale-[0.98] transition-all"
                                     >
-                                        Send Reset Code
+                                        Send OTP Code
                                     </Button>
                                 </Form.Item>
 
@@ -164,19 +205,20 @@ export default function ResetPasswordPage(): JSX.Element {
                                     label={<span className="text-slate-300 text-sm font-bold ml-1">8-Digit Reset Code</span>}
                                     rules={[
                                         { required: true, message: "Verification code is required" },
-                                        { pattern: /^[0-9]{8}$/, message: "Please enter a valid 8-digit code" }
+                                        { pattern: /^[0-9]{6}$/, message: "Please enter a valid 6-digit code" }
                                     ]}
                                 >
                                     <Input
                                         prefix={<SafetyCertificateOutlined className="text-slate-500 mr-2" />}
-                                        placeholder="00000000"
-                                        maxLength={8}
+                                        placeholder="000000"
+                                        maxLength={6}
                                         className="rounded-2xl! bg-slate-950/40! border-slate-800! hover:border-blue-500/50! focus:border-blue-500! transition-all text-white! placeholder:text-slate-600 text-center text-2xl tracking-[0.5em] font-mono h-[64px]!"
                                     />
                                 </Form.Item>
 
                                 <Form.Item className="mt-8! mb-0!">
                                     <Button
+                                        loading={loading}
                                         type="primary"
                                         htmlType="submit"
                                         block
@@ -191,10 +233,10 @@ export default function ResetPasswordPage(): JSX.Element {
                                         {"Didn't"} receive the code?{" "}
                                         <button
                                             type="button"
-                                            onClick={() => console.log("Resend OTP")}
-                                            className="text-blue-500 hover:text-blue-400 font-bold ml-1 transition-colors"
+                                            onClick={() => onEmailFinish({ email })}
+                                            className="text-blue-500 hover:text-blue-400 font-bold ml-1 transition-colors cursor-pointer"
                                         >
-                                            Resend
+                                            {resendLoading ? "Sending" : "Resend OTP"}
                                         </button>
                                     </div>
                                     <button
@@ -257,6 +299,7 @@ export default function ResetPasswordPage(): JSX.Element {
 
                                 <Form.Item className="mt-8! mb-0!">
                                     <Button
+                                        loading={loading}
                                         type="primary"
                                         htmlType="submit"
                                         block
