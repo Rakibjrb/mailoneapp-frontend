@@ -1,4 +1,5 @@
 "use client";
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
 
 import React from "react";
 import { Form, Input, Button, Divider, Typography, ConfigProvider, theme } from "antd";
@@ -18,12 +19,12 @@ export default function SignupPage(): JSX.Element {
     const router = useRouter();
     const { toast } = useToast();
 
-    const [useRegister] = useRegisterMutation();
+    const [register] = useRegisterMutation();
 
     const onFinish = async (values: AuthSignup) => {
         setLoading(true);
         try {
-            const res = await useRegister(values).unwrap();
+            const res = await register(values).unwrap();
             toast(res.data?.message || "User Registered Successfully", "success");
             router.push("/login");
         } catch (error: any) {
