@@ -6,14 +6,31 @@ import { GoogleOutlined, MailOutlined, LockOutlined, UserOutlined } from "@ant-d
 import Link from "next/link";
 import { JSX } from "react";
 import { AuthSignup } from "../../../../../types/auth.types";
+import { useRouter } from "next/navigation";
+import { useRegisterMutation } from "@/redux/features/auth/authApi";
+import { useToast } from "@/context/ToastContext";
 
 const { Title, Text, Paragraph } = Typography;
 
 export default function SignupPage(): JSX.Element {
     const [form] = Form.useForm();
+    const [loading, setLoading] = React.useState(false);
+    const router = useRouter();
+    const { toast } = useToast();
 
-    const onFinish = (values: AuthSignup) => {
-        console.log("Success:", values);
+    const [useRegister] = useRegisterMutation();
+
+    const onFinish = async (values: AuthSignup) => {
+        setLoading(true);
+        try {
+            const res = await useRegister(values).unwrap();
+            toast(res.data?.message || "User Registered Successfully", "success");
+            router.push("/login");
+        } catch (error: any) {
+            toast(error.data?.message || "Something went wrong", "error");
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -133,6 +150,7 @@ export default function SignupPage(): JSX.Element {
                                     type="primary"
                                     htmlType="submit"
                                     block
+                                    loading={loading}
                                     className="h-[56px]! rounded-2xl! text-base! bg-linear-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border-none shadow-lg shadow-blue-600/20 active:scale-[0.98] transition-all"
                                 >
                                     Create Account
