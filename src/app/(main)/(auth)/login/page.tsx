@@ -12,6 +12,7 @@ import { useToast } from "@/context/ToastContext";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/features/auth/authSlice";
+import Cookies from "js-cookie";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -27,6 +28,18 @@ export default function LoginPage(): JSX.Element {
         try {
             setLoading(true);
             const res = await login(values).unwrap();
+
+            Cookies.set("accessToken", res.data.access_token, {
+                expires: 1,
+                secure: true,
+                sameSite: "strict",
+            });
+
+            Cookies.set("refreshToken", res.data.refresh_token, {
+                expires: 30,
+                secure: true,
+                sameSite: "strict",
+            });
 
             dispatch(setUser({
                 user: {
