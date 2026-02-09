@@ -27,7 +27,7 @@ const TrashPage = () => {
     const trashedMails = response?.data || [];
     const meta = response?.meta || {};
 
-    const [restoreMail, { isLoading: isLoadingRestoreMail }] = useRestoreMailMutation();
+    const [restoreMail] = useRestoreMailMutation();
     const [emptyTrash, { isLoading: isLoadingEmptyTrash }] = useEmptyTrashMutation();
 
     const handleRestoreMail = async (id: string) => {
@@ -138,7 +138,7 @@ const TrashPage = () => {
 export default TrashPage;
 
 function RestoreButton({ record, isLoadingRestoreMail, handleRestoreMail }: { record: DataType, isLoadingRestoreMail: boolean, handleRestoreMail: (id: string) => void }) {
-    return <Button loading={isLoadingRestoreMail} onClick={() => handleRestoreMail(record._id)} className="text-green-400! px-4! py-1! hover:text-green-500! border-green-400! hover:border-green-500!">
+    return <Button disabled={isLoadingRestoreMail} loading={isLoadingRestoreMail} onClick={() => handleRestoreMail(record._id)} className="text-green-400! px-4! py-1! hover:text-green-500! border-green-400! hover:border-green-500!">
         <ReloadOutlined />
     </Button>
 }

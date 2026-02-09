@@ -14,6 +14,8 @@ import { useToast } from "@/context/ToastContext";
 import { DataType } from "@/types/data.types";
 
 const AllMailPage = () => {
+    const [updateMailSelectionId, setUpdateMailSelectionId] = useState<string | null>(null);
+    const [deleteMailId, setDeleteMailId] = useState<string | null>(null);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
     const [pagination, setPagination] = useState<{
         page: number;
@@ -49,21 +51,27 @@ const AllMailPage = () => {
 
     const handleUpdateMailSelection = async (id: string, isSelected: string) => {
         try {
+            setUpdateMailSelectionId(id);
             await updateMailSelection({ id, isSelected }).unwrap();
             refetchAllMail();
             toast("Mail selection updated successfully", "success");
         } catch (error: any) {
             toast(error?.message || "Failed to update mail selection", "error");
+        } finally {
+            setUpdateMailSelectionId(null);
         }
     };
 
     const handleDeleteMail = async (id: string) => {
         try {
+            setDeleteMailId(id);
             await deleteMail(id).unwrap();
             refetchAllMail();
             toast("Mail moved to trash", "warning");
         } catch (error: any) {
             toast(error?.message || "Failed to trash mail", "error");
+        } finally {
+            setDeleteMailId(null);
         }
     };
 
@@ -91,10 +99,8 @@ const AllMailPage = () => {
             key: 'action',
             align: "right",
             render: (record: DataType) => <div className="flex gap-3 items-center justify-end">
-                <Button onClick={() => handleUpdateMailSelection(record._id, record.isSelected ? "false" : "true")} className="text-blue-400! px-4! py-1! hover:text-blue-500!">{record.isSelected ? "Unselect" : "Select"}</Button>
-                <Button onClick={() => handleDeleteMail(record._id)} className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
-                    <DeleteOutlined />
-                </Button>
+                <SelectButton record={record} isLoading={record._id === updateMailSelectionId} onClick={() => handleUpdateMailSelection(record._id, record.isSelected ? "false" : "true")} />
+                <TrashButton isLoading={record._id === deleteMailId} onClick={() => handleDeleteMail(record._id)} />
             </div>
         },
     ];
@@ -174,3 +180,19 @@ const AllMailPage = () => {
 };
 
 export default AllMailPage;
+
+function SelectButton({ record, isLoading, onClick }: { record: DataType, isLoading: boolean, onClick: () => void }) {
+    return (
+        <Button onClick={onClick} disabled={isLoading} loading={isLoading} className="text-blue-400! px-4! py-1! hover:text-blue-500!">
+            {isLoading ? "Updating" : record.isSelected ? "Unselect" : "Select"}
+        </Button>
+    );
+}
+
+function TrashButton({ isLoading, onClick }: { isLoading: boolean, onClick: () => void }) {
+    return (
+        <Button disabled={isLoading} loading={isLoading} onClick={onClick} className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
+            <DeleteOutlined />
+        </Button>
+    );
+}
