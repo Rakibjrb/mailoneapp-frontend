@@ -1,20 +1,24 @@
 "use client";
 
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
+
 import React, { useState } from "react";
 import { Card, Table, Button, Input } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined } from "@ant-design/icons";
 import FilterModal from "./_components/FilterModal";
-import { useGetAllMailQuery } from "@/redux/features/dashboard/mail-management/mailApi";
+import { useGetAllMailQuery, useUpdateMailSelectionMutation } from "@/redux/features/dashboard/mail-management/mailApi";
 import Loading from "@/components/shared/ui/loading";
 import ErrorDataLoading from "@/components/shared/ui/errordataloading";
+import { useToast } from "@/context/ToastContext";
 
 interface DataType {
+    _id: string;
     key: string;
     name: string;
     email: string;
     date: string;
-    selected: boolean;
+    isSelected: string;
 }
 
 const AllMailPage = () => {
@@ -37,14 +41,27 @@ const AllMailPage = () => {
         isSelected: "",
     });
 
+    const { toast } = useToast();
+
     const { data: response, isLoading: allMailLoading, refetch: refetchAllMail, error: allMailError } = useGetAllMailQuery({
         ...filterValues,
         search: searchText,
         ...pagination
     });
-
     const mails = response?.data || [];
     const meta = response?.meta || {};
+
+    const [updateMailSelection] = useUpdateMailSelectionMutation();
+
+    const handleUpdateMailSelection = async (id: string, isSelected: string) => {
+        try {
+            await updateMailSelection({ id, isSelected }).unwrap();
+            refetchAllMail();
+            toast("Mail selection updated successfully", "success");
+        } catch (error: any) {
+            toast(error?.message || "Failed to update mail selection", "error");
+        }
+    };
 
     const columns: ColumnsType<DataType> = [
         {
@@ -70,7 +87,7 @@ const AllMailPage = () => {
             key: 'action',
             align: "right",
             render: (record: DataType) => <div className="flex gap-3 items-center justify-end">
-                <Button className="text-blue-400! px-4! py-1! hover:text-blue-500!">{record.selected ? "Unselect" : "Select"}</Button>
+                <Button onClick={() => handleUpdateMailSelection(record._id, record.isSelected ? "false" : "true")} className="text-blue-400! px-4! py-1! hover:text-blue-500!">{record.isSelected ? "Unselect" : "Select"}</Button>
                 <Button className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
                     <DeleteOutlined />
                 </Button>

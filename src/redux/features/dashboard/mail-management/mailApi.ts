@@ -18,8 +18,18 @@ const mailApi = baseApi.injectEndpoints({
                 }
             },
             providesTags: ["Mail"]
+        }),
+
+        updateMailSelection: builder.mutation({
+            query: ({ id, isSelected }: { id: string, isSelected: string }) => {
+                return {
+                    url: `/management/mail/update/${id}?isSelected=${isSelected}`,
+                    method: "PATCH",
+                }
+            },
+            invalidatesTags: ["Mail"]
         })
     })
 });
 
-export const { useGetAllMailQuery } = mailApi;
+export const { useGetAllMailQuery, useUpdateMailSelectionMutation } = mailApi;
