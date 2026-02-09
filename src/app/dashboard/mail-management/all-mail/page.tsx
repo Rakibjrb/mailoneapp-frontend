@@ -11,15 +11,7 @@ import { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutati
 import Loading from "@/components/shared/ui/loading";
 import ErrorDataLoading from "@/components/shared/ui/errordataloading";
 import { useToast } from "@/context/ToastContext";
-
-interface DataType {
-    _id: string;
-    key: string;
-    name: string;
-    email: string;
-    date: string;
-    isSelected: string;
-}
+import { DataType } from "@/types/data.types";
 
 const AllMailPage = () => {
     const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);

@@ -1,10 +1,93 @@
 "use client";
 
-import React from "react";
-import { Card, Button, Empty } from "antd";
-import { DeleteOutlined } from "@ant-design/icons";
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
+
+import React, { useState } from "react";
+import { Card, Button, Empty, Table } from "antd";
+import { DeleteOutlined, ReloadOutlined } from "@ant-design/icons";
+import { useGetTrashedMailQuery } from "@/redux/features/dashboard/mail-management/trash-management/trashApi";
+import Loading from "@/components/shared/ui/loading";
+import ErrorDataLoading from "@/components/shared/ui/errordataloading";
+import { useToast } from "@/context/ToastContext";
+import { DataType } from "@/types/data.types";
+import type { ColumnsType } from "antd/es/table";
 
 const TrashPage = () => {
+    const [pagination, setPagination] = useState<{
+        page: number;
+        limit: number;
+    }>({
+        page: 1,
+        limit: 10,
+    });
+    const { toast } = useToast();
+
+    const { data: response, isLoading: isLoadingTrashedMail, error: errorTrashedMail, refetch: refetchTrashedMail } = useGetTrashedMailQuery(pagination);
+    const trashedMails = response?.data || [];
+    const meta = response?.meta || {};
+
+    const columns: ColumnsType<DataType> = [
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            render: (text: string) => <span className="text-slate-300">{text}</span>,
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            render: (text: string) => <span className="text-slate-300">{text}</span>,
+        },
+        {
+            title: 'Date',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (text: string) => <span className="text-slate-400 text-sm">{text}</span>,
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            align: "right",
+            render: (record: DataType) => <div className="flex gap-3 items-center justify-end">
+                <Button className="text-green-400! px-4! py-1! hover:text-green-500! border-green-400! hover:border-green-500!">
+                    <ReloadOutlined />
+                </Button>
+            </div>
+        },
+    ];
+
+    if (isLoadingTrashedMail) return <Loading tip="Loading Trashed Mail" size="default" />
+    if (errorTrashedMail) return <ErrorDataLoading message="Failed to load trashed mail data. Please check your connection and try again." onRetry={() => refetchTrashedMail()} />
+
+    if (trashedMails?.length !== 0) return <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!" variant="outlined">
+        <div className="h-full w-full min-w-[640px]">
+            <Table
+                rowClassName="bg-transparent! hover:bg-slate-700/20! transition-colors!"
+                className="ant-table-premium"
+                columns={columns}
+                dataSource={trashedMails.map((mail: any) => ({
+                    ...mail,
+                    key: mail._id,
+                }))}
+                pagination={{
+                    showTotal: (total, range) =>
+                        `${range[0]}-${range[1]} of ${total} mails`,
+                    total: meta.total,
+                    current: meta.page,
+                    pageSize: meta.limit,
+                    onChange: (page, pageSize) => {
+                        setPagination({
+                            page,
+                            limit: pageSize,
+                        });
+                    },
+                }}
+            />
+        </div>
+    </Card>
+
+
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-start">

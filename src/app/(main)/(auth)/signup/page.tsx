@@ -6,7 +6,7 @@ import { Form, Input, Button, Divider, Typography, ConfigProvider, theme } from 
 import { GoogleOutlined, MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { JSX } from "react";
-import { AuthSignup } from "../../../../../types/auth.types";
+import { AuthSignup } from "../../../../types/auth.types";
 import { useRouter } from "next/navigation";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { useToast } from "@/context/ToastContext";
