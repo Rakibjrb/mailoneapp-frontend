@@ -19,7 +19,7 @@ const trashApi = baseApi.injectEndpoints({
         restoreMail: builder.mutation({
             query: ({ id }: { id: string }) => {
                 return {
-                    url: `/management/mail/restore/${id}`,
+                    url: `/management/mail/trash/restore/${id}`,
                     method: "PATCH",
                 }
             },
@@ -27,7 +27,7 @@ const trashApi = baseApi.injectEndpoints({
         }),
 
         emptyTrash: builder.mutation({
-            query: () => {
+            query: ({ }) => {
                 return {
                     url: `/management/mail/trash/empty-trash`,
                     method: "DELETE",
