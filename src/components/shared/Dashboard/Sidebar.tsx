@@ -66,14 +66,19 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             label: <div>Mail Management</div>,
             children: [
                 {
+                    key: "/dashboard/mail-management/add-mail",
+                    icon: <PlusOutlined />,
+                    label: <Link href="/dashboard/mail-management/add-mail">Add Mail</Link>,
+                },
+                {
                     key: "/dashboard/mail-management/all-mail",
                     icon: <InboxOutlined />,
                     label: <Link href="/dashboard/mail-management/all-mail">All Mail</Link>,
                 },
                 {
-                    key: "/dashboard/mail-management/add-mail",
-                    icon: <PlusOutlined />,
-                    label: <Link href="/dashboard/mail-management/add-mail">Add Mail</Link>,
+                    key: "/dashboard/mail-management/trash",
+                    icon: <DeleteOutlined />,
+                    label: <Link href="/dashboard/mail-management/trash">Trash</Link>,
                 },
             ]
         },
@@ -91,11 +96,6 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             key: "/dashboard/configurations",
             icon: <ControlOutlined />,
             label: <Link href="/dashboard/configurations">Configurations</Link>,
-        },
-        {
-            key: "/dashboard/trash",
-            icon: <DeleteOutlined />,
-            label: <Link href="/dashboard/trash">Trash</Link>,
         },
     ];
 
