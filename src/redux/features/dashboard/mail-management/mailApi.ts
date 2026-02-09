@@ -28,8 +28,18 @@ const mailApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags: ["Mail"]
+        }),
+
+        deleteMail: builder.mutation({
+            query: (id: string) => {
+                return {
+                    url: `/management/mail/delete/${id}`,
+                    method: "DELETE",
+                }
+            },
+            invalidatesTags: ["Mail"]
         })
     })
 });
 
-export const { useGetAllMailQuery, useUpdateMailSelectionMutation } = mailApi;
+export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation } = mailApi;

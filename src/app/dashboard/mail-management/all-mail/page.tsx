@@ -7,7 +7,7 @@ import { Card, Table, Button, Input } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined } from "@ant-design/icons";
 import FilterModal from "./_components/FilterModal";
-import { useGetAllMailQuery, useUpdateMailSelectionMutation } from "@/redux/features/dashboard/mail-management/mailApi";
+import { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation } from "@/redux/features/dashboard/mail-management/mailApi";
 import Loading from "@/components/shared/ui/loading";
 import ErrorDataLoading from "@/components/shared/ui/errordataloading";
 import { useToast } from "@/context/ToastContext";
@@ -53,6 +53,8 @@ const AllMailPage = () => {
 
     const [updateMailSelection] = useUpdateMailSelectionMutation();
 
+    const [deleteMail] = useDeleteMailMutation();
+
     const handleUpdateMailSelection = async (id: string, isSelected: string) => {
         try {
             await updateMailSelection({ id, isSelected }).unwrap();
@@ -60,6 +62,16 @@ const AllMailPage = () => {
             toast("Mail selection updated successfully", "success");
         } catch (error: any) {
             toast(error?.message || "Failed to update mail selection", "error");
+        }
+    };
+
+    const handleDeleteMail = async (id: string) => {
+        try {
+            await deleteMail(id).unwrap();
+            refetchAllMail();
+            toast("Mail moved to trash", "warning");
+        } catch (error: any) {
+            toast(error?.message || "Failed to trash mail", "error");
         }
     };
 
@@ -88,7 +100,7 @@ const AllMailPage = () => {
             align: "right",
             render: (record: DataType) => <div className="flex gap-3 items-center justify-end">
                 <Button onClick={() => handleUpdateMailSelection(record._id, record.isSelected ? "false" : "true")} className="text-blue-400! px-4! py-1! hover:text-blue-500!">{record.isSelected ? "Unselect" : "Select"}</Button>
-                <Button className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
+                <Button onClick={() => handleDeleteMail(record._id)} className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
                     <DeleteOutlined />
                 </Button>
             </div>
@@ -144,6 +156,8 @@ const AllMailPage = () => {
                             key: mail._id,
                         }))}
                         pagination={{
+                            showTotal: (total, range) =>
+                                `${range[0]}-${range[1]} of ${total} mails`,
                             total: meta.total,
                             current: meta.page,
                             pageSize: meta.limit,
