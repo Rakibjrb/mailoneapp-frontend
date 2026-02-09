@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 import { Layout, Menu, } from "antd";
 import {
@@ -43,8 +45,8 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
         const refreshToken = Cookies.get("refreshToken");
         try {
             await logout({ refreshToken }).unwrap();
-        } catch (error) {
-            toast("Server Logout failed", "error");
+        } catch (error: any) {
+            toast(error?.message || "Server Logout failed", "error");
         } finally {
             Cookies.remove("accessToken");
             Cookies.remove("refreshToken");

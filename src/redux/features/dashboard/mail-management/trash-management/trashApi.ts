@@ -4,7 +4,7 @@ const trashApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getTrashedMail: builder.query({
             query: ({ page = 1, limit = 10 }: { page: number, limit: number }) => {
-                let params = new URLSearchParams();
+                const params = new URLSearchParams();
                 if (page) params.append("page", page.toString());
                 if (limit) params.append("limit", limit.toString());
 

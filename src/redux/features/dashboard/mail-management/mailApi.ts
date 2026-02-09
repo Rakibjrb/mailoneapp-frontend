@@ -4,7 +4,7 @@ const mailApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllMail: builder.query({
             query: ({ page = 1, limit = 10, search = "", isSelected = "all", sortBy = "createdAt", sortOrder = "desc" }: { page: number, limit: number, search: string, isSelected: string, sortBy: string, sortOrder: string }) => {
-                let params = new URLSearchParams();
+                const params = new URLSearchParams();
                 if (page) params.append("page", page.toString());
                 if (limit) params.append("limit", limit.toString());
                 if (search) params.append("search", search);
