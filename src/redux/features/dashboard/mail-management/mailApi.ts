@@ -38,8 +38,30 @@ const mailApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags: ["Mail"]
+        }),
+
+        uploadSingleMail: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `/management/mail/create`,
+                    method: "POST",
+                    body: data,
+                }
+            },
+            invalidatesTags: ["Mail"]
+        }),
+
+        uploadBulkMail: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `/management/mail/create/many`,
+                    method: "POST",
+                    body: data,
+                }
+            },
+            invalidatesTags: ["Mail"]
         })
     })
 });
 
-export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation } = mailApi;
+export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation, useUploadSingleMailMutation, useUploadBulkMailMutation } = mailApi;

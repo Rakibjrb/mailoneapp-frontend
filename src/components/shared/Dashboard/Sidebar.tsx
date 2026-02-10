@@ -68,11 +68,6 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             label: <div>Mail Management</div>,
             children: [
                 {
-                    key: "/dashboard/mail-management/add-mail",
-                    icon: <PlusOutlined />,
-                    label: <Link href="/dashboard/mail-management/add-mail">Add Mail</Link>,
-                },
-                {
                     key: "/dashboard/mail-management/all-mail",
                     icon: <InboxOutlined />,
                     label: <Link href="/dashboard/mail-management/all-mail">All Mail</Link>,

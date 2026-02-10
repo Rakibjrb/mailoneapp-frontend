@@ -5,13 +5,14 @@
 import React, { useState } from "react";
 import { Card, Table, Button, Input } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined } from "@ant-design/icons";
+import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import FilterModal from "./_components/FilterModal";
 import { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation } from "@/redux/features/dashboard/mail-management/mailApi";
 import Loading from "@/components/shared/ui/loading";
 import ErrorDataLoading from "@/components/shared/ui/errordataloading";
 import { useToast } from "@/context/ToastContext";
 import { DataType } from "@/types/data.types";
+import { useRouter } from "next/navigation";
 
 const AllMailPage = () => {
     const [updateMailSelectionId, setUpdateMailSelectionId] = useState<string | null>(null);
@@ -35,6 +36,7 @@ const AllMailPage = () => {
         isSelected: "",
     });
 
+    const router = useRouter();
     const { toast } = useToast();
 
     const { data: response, isLoading: allMailLoading, refetch: refetchAllMail, error: allMailError } = useGetAllMailQuery({
@@ -139,6 +141,13 @@ const AllMailPage = () => {
                         onClick={() => setIsFilterModalOpen(true)}
                     >
                         Filter
+                    </Button>
+                    <Button
+                        onClick={() => router.push("/dashboard/mail-management/add-mail")}
+                        icon={<PlusOutlined />}
+                        className="bg-blue-500! border-blue-500! text-white! hover:bg-blue-600! hover:border-blue-600! hover:text-white!"
+                    >
+                        Add Mail
                     </Button>
                 </div>
             </div>
