@@ -1,6 +1,8 @@
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
+import Cookies from "js-cookie";
 
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:8001/api",
@@ -37,7 +39,20 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
         if (refreshResult?.data?.success) {
             const user = (api.getState() as RootState).auth.user;
-            const newAccessToken = refreshResult.data.data.accessToken;
+            const newAccessToken = refreshResult.data.data.access_token;
+            const newRefreshToken = refreshResult.data.data.refresh_token;
+
+            Cookies.set("accessToken", newAccessToken, {
+                expires: 1,
+                secure: true,
+                sameSite: "strict",
+            });
+
+            Cookies.set("refreshToken", newRefreshToken, {
+                expires: 30,
+                secure: true,
+                sameSite: "strict",
+            });
 
             api.dispatch(
                 setUser({
@@ -58,6 +73,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
     reducerPath: "baseApi",
     baseQuery: baseQueryWithRefreshToken,
-    tagTypes: [],
+    tagTypes: ["Mail"],
     endpoints: () => ({})
 });

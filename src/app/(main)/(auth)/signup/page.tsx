@@ -1,11 +1,12 @@
 "use client";
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
 
 import React from "react";
 import { Form, Input, Button, Divider, Typography, ConfigProvider, theme } from "antd";
 import { GoogleOutlined, MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { JSX } from "react";
-import { AuthSignup } from "../../../../../types/auth.types";
+import { AuthSignup } from "../../../../types/auth.types";
 import { useRouter } from "next/navigation";
 import { useRegisterMutation } from "@/redux/features/auth/authApi";
 import { useToast } from "@/context/ToastContext";
@@ -18,12 +19,12 @@ export default function SignupPage(): JSX.Element {
     const router = useRouter();
     const { toast } = useToast();
 
-    const [useRegister] = useRegisterMutation();
+    const [register] = useRegisterMutation();
 
     const onFinish = async (values: AuthSignup) => {
         setLoading(true);
         try {
-            const res = await useRegister(values).unwrap();
+            const res = await register(values).unwrap();
             toast(res.data?.message || "User Registered Successfully", "success");
             router.push("/login");
         } catch (error: any) {

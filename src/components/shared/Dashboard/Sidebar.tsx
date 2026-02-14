@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React from "react";
 import { Layout, Menu, } from "antd";
 import {
@@ -17,6 +19,12 @@ import {
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { logout as authLogout } from "@/redux/features/auth/authSlice";
+import Cookies from "js-cookie";
+import { useLogoutMutation } from "@/redux/features/auth/authApi";
+import { useToast } from "@/context/ToastContext";
 
 const { Sider } = Layout;
 
@@ -27,6 +35,26 @@ interface SidebarProps {
 
 const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
     const pathname = usePathname();
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { toast } = useToast();
+
+    const [logout] = useLogoutMutation();
+
+    const handleLogout = async () => {
+        const refreshToken = Cookies.get("refreshToken");
+        try {
+            await logout({ refreshToken }).unwrap();
+        } catch (error: any) {
+            toast(error?.message || "Server Logout failed", "error");
+        } finally {
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
+            dispatch(authLogout());
+            router.push("/login");
+            toast("Logout successfully", "success");
+        }
+    };
 
     const menuItems = [
         {
@@ -45,9 +73,9 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
                     label: <Link href="/dashboard/mail-management/all-mail">All Mail</Link>,
                 },
                 {
-                    key: "/dashboard/mail-management/add-mail",
-                    icon: <PlusOutlined />,
-                    label: <Link href="/dashboard/mail-management/add-mail">Add Mail</Link>,
+                    key: "/dashboard/mail-management/trash",
+                    icon: <DeleteOutlined />,
+                    label: <Link href="/dashboard/mail-management/trash">Trash</Link>,
                 },
             ]
         },
@@ -66,11 +94,6 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             icon: <ControlOutlined />,
             label: <Link href="/dashboard/configurations">Configurations</Link>,
         },
-        {
-            key: "/dashboard/trash",
-            icon: <DeleteOutlined />,
-            label: <Link href="/dashboard/trash">Trash</Link>,
-        },
     ];
 
     const settingsItem = [
@@ -87,7 +110,7 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
         {
             key: "logout",
             icon: <LogoutOutlined />,
-            label: <button>Logout</button>,
+            label: <button className="w-full text-left cursor-pointer" onClick={handleLogout}>Logout</button>,
         }
     ];
 

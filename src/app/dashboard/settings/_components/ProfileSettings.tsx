@@ -7,7 +7,7 @@ import { UserOutlined } from "@ant-design/icons";
 const ProfileSettings = () => {
     return (
         <div className="py-2 space-y-6">
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col md:flex-row items-center gap-6">
                 <Avatar size={80} icon={<UserOutlined />} className="bg-blue-600/20! text-blue-500! border! border-blue-500/30!" />
                 <div>
                     <h3 className="text-white font-semibold">Profile Photo</h3>
@@ -16,7 +16,7 @@ const ProfileSettings = () => {
                 </div>
             </div>
             <Form layout="vertical" className="w-full!">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Form.Item label={<span className="text-slate-300">Full Name</span>}>
                         <Input defaultValue="Rakibul Hasan" className="bg-slate-900/50! border-slate-700! text-white! p-2!" />
                     </Form.Item>

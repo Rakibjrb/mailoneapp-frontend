@@ -1,4 +1,5 @@
 "use client";
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
 
 import React, { useState } from "react";
 import { Form, Input, Button, Typography, ConfigProvider, theme } from "antd";
@@ -27,7 +28,11 @@ export default function ResetPasswordPage(): JSX.Element {
     const [confirmResetPassword] = useConfirmResetPasswordMutation();
 
     const onEmailFinish = async (values: { email: string }) => {
-        step === "email" ? setLoading(true) : setResendLoading(true);
+        if (step === "email") {
+            setLoading(true)
+        } else {
+            setResendLoading(true);
+        }
         try {
             await requestOtp(values).unwrap();
             setEmail(values.email);
