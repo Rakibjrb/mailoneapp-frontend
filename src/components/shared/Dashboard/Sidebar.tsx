@@ -12,7 +12,6 @@ import {
     EditOutlined,
     ControlOutlined,
     DeleteOutlined,
-    PlusOutlined,
     InboxOutlined,
     LogoutOutlined,
     HomeOutlined

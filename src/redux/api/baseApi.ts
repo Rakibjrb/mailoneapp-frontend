@@ -70,8 +70,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
             result = await baseQuery(args, api, extraOptions);
         } else {
-            // api.dispatch(logout());
-            console.log("Logout trigered!")
+            api.dispatch(logout());
+            console.log("Logout trigered!");
         }
     }
 

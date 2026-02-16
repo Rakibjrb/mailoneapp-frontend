@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { Modal, Upload, Button } from "antd";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
-import type { UploadProps, UploadFile } from "antd";
+import type { UploadProps } from "antd";
 import { useToast } from "@/context/ToastContext";
 
 const { Dragger } = Upload;
