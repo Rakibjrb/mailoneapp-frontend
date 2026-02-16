@@ -46,7 +46,7 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
         try {
             await logout({ refreshToken }).unwrap();
         } catch (error: any) {
-            toast(error?.message || "Server Logout failed", "error");
+            console.log(error);
         } finally {
             Cookies.remove("accessToken");
             Cookies.remove("refreshToken");

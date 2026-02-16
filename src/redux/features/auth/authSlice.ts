@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "@/redux/store";
 
@@ -25,11 +26,17 @@ const authSlice = createSlice({
         setUser: (state, action) => {
             const { user, token } = action.payload;
             if (user !== undefined) state.user = user;
-            if (token !== undefined) state.token = token;
+            if (token) {
+                state.token = token;
+            } else if (typeof window !== "undefined") {
+                state.token = Cookies.get("accessToken") || null;
+            }
         },
         logout: (state) => {
             state.user = null;
             state.token = null;
+            Cookies.remove("accessToken");
+            Cookies.remove("refreshToken");
         }
     }
 })

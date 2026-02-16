@@ -8,7 +8,7 @@ const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:8001/api",
     credentials: "include",
     prepareHeaders: (headers: Headers, { getState }) => {
-        const token = (getState() as RootState).auth.token;
+        const token = (getState() as RootState).auth.token || Cookies.get("accessToken");
         if (token) {
             headers.set("Authorization", `Bearer ${token}`);
         }
@@ -32,10 +32,15 @@ const baseQueryWithRefreshToken: BaseQueryFn<
             {
                 url: '/auth/refresh-token',
                 method: 'POST',
+                body: {
+                    refreshToken: Cookies.get("refreshToken") || null,
+                }
             },
             api,
             extraOptions
         );
+
+        console.log(refreshResult);
 
         if (refreshResult?.data?.success) {
             const user = (api.getState() as RootState).auth.user;
@@ -43,15 +48,17 @@ const baseQueryWithRefreshToken: BaseQueryFn<
             const newRefreshToken = refreshResult.data.data.refresh_token;
 
             Cookies.set("accessToken", newAccessToken, {
-                expires: 1,
+                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
+                path: "/"
             });
 
             Cookies.set("refreshToken", newRefreshToken, {
-                expires: 30,
+                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
+                path: "/"
             });
 
             api.dispatch(
@@ -63,7 +70,8 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
             result = await baseQuery(args, api, extraOptions);
         } else {
-            api.dispatch(logout());
+            // api.dispatch(logout());
+            console.log("Logout trigered!")
         }
     }
 

@@ -30,15 +30,17 @@ export default function LoginPage(): JSX.Element {
             const res = await login(values).unwrap();
 
             Cookies.set("accessToken", res.data.access_token, {
-                expires: 1,
+                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
+                path: "/"
             });
 
             Cookies.set("refreshToken", res.data.refresh_token, {
-                expires: 30,
+                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
+                path: "/"
             });
 
             dispatch(setUser({
@@ -53,7 +55,7 @@ export default function LoginPage(): JSX.Element {
             toast(res.message, "success", 5000);
             router.push("/dashboard");
         } catch (error: any) {
-            toast(error.data.message, "error", 5000);
+            toast(error?.data?.message || "Something went wrong", "error", 5000);
         } finally {
             setLoading(false);
         }
