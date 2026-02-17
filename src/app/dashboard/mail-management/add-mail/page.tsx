@@ -7,16 +7,18 @@ import { Card, Form, Input, Button, Checkbox } from "antd";
 import { ArrowLeftOutlined, PlusOutlined, UploadOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import UploadModal from "./_components/UploadModal";
-import { useUploadBulkMailMutation } from "@/redux/features/dashboard/mail-management/mailApi";
+import { useUploadBulkMailMutation, useUploadSingleMailMutation } from "@/redux/features/dashboard/mail-management/mailApi";
 import { useToast } from "@/context/ToastContext";
 
 const AddMailPage = () => {
     const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
+    const [form] = Form.useForm();
 
     const router = useRouter();
     const { toast } = useToast();
 
     const [uploadBulkMail, { isLoading: isUploading }] = useUploadBulkMailMutation();
+    const [uploadSingleMail, { isLoading: isUploadingSingle }] = useUploadSingleMailMutation();
 
     const handleUpload = async (files: any) => {
         try {
@@ -34,6 +36,16 @@ const AddMailPage = () => {
             toast(error?.data?.message || "Error uploading file:", "error");
         }
     };
+
+    const handleSingleMailUpload = async (values: any) => {
+        try {
+            await uploadSingleMail(values).unwrap();
+            toast("mail added successfully", "success");
+            form.resetFields();
+        } catch (error: any) {
+            toast(error?.data?.message || "Error adding mail:", "error");
+        }
+    }
 
     return (
         <div className="space-y-6">
@@ -64,7 +76,7 @@ const AddMailPage = () => {
                         <p className="text-slate-400 text-sm">Fill in the details to add a new contact to your mail list.</p>
                     </div>
 
-                    <Form layout="vertical" className="space-y-4">
+                    <Form form={form} onFinish={handleSingleMailUpload} layout="vertical" className="space-y-4">
                         <Form.Item
                             label={<span className="text-slate-300 font-medium">Name</span>}
                             name="name"
@@ -90,7 +102,11 @@ const AddMailPage = () => {
                             />
                         </Form.Item>
 
-                        <Form.Item name="selectByDefault" valuePropName="checked">
+                        <Form.Item
+                            name="isSelected"
+                            valuePropName="checked"
+                            initialValue={false}
+                        >
                             <Checkbox className="text-slate-300! hover:text-white! transition-colors">
                                 Select by Default
                             </Checkbox>
@@ -98,6 +114,8 @@ const AddMailPage = () => {
 
                         <div className="pt-1">
                             <Button
+                                loading={isUploadingSingle}
+                                disabled={isUploadingSingle}
                                 type="primary"
                                 icon={<PlusOutlined />}
                                 className="w-full h-11! bg-blue-600! border-none! text-white font-bold hover:bg-blue-500! transition-all shadow-lg shadow-blue-900/20 uppercase"

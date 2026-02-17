@@ -126,7 +126,7 @@ export default function LoginPage(): JSX.Element {
                             form={form}
                             name="login"
                             layout="vertical"
-                            initialValues={{ remember: true }}
+                            initialValues={{ remember: false }}
                             onFinish={onFinish}
                             autoComplete="off"
                             requiredMark={false}

@@ -55,11 +55,11 @@ const AllMailPage = () => {
         try {
             setUpdateMailSelectionId(id);
             await updateMailSelection({ id, isSelected }).unwrap();
-            refetchAllMail();
             toast("Mail selection updated successfully", "success");
         } catch (error: any) {
             toast(error?.message || "Failed to update mail selection", "error");
         } finally {
+            refetchAllMail();
             setUpdateMailSelectionId(null);
         }
     };
@@ -68,11 +68,11 @@ const AllMailPage = () => {
         try {
             setDeleteMailId(id);
             await deleteMail(id).unwrap();
-            refetchAllMail();
-            toast("Mail moved to trash", "warning");
+            toast("Mail successfully moved to trash", "warning");
         } catch (error: any) {
             toast(error?.message || "Failed to trash mail", "error");
         } finally {
+            refetchAllMail();
             setDeleteMailId(null);
         }
     };
@@ -119,7 +119,6 @@ const AllMailPage = () => {
         }));
     }
 
-    if (allMailLoading) return <Loading tip="Loading All Mail" size="default" />
     if (allMailError) return <ErrorDataLoading message="Failed to load mail data. Please check your connection and try again." onRetry={() => refetchAllMail()} />
 
     return (
@@ -152,7 +151,9 @@ const AllMailPage = () => {
                 </div>
             </div>
 
-            <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!" variant="outlined">
+            {allMailLoading && <Loading tip="Loading All Mail" size="default" />}
+
+            {!allMailLoading && <Card className="bg-slate-800/40! border-slate-700/50! backdrop-blur-md! overflow-x-auto!" variant="outlined">
                 <div className="h-full w-full min-w-[640px]">
                     <Table
                         rowClassName="bg-transparent! hover:bg-slate-700/20! transition-colors!"
@@ -177,7 +178,7 @@ const AllMailPage = () => {
                         }}
                     />
                 </div>
-            </Card>
+            </Card>}
 
             <FilterModal
                 open={isFilterModalOpen}
