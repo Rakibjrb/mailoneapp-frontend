@@ -30,14 +30,12 @@ export default function LoginPage(): JSX.Element {
             const res = await login(values).unwrap();
 
             Cookies.set("accessToken", res.data.access_token, {
-                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
                 path: "/"
             });
 
             Cookies.set("refreshToken", res.data.refresh_token, {
-                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
                 path: "/"

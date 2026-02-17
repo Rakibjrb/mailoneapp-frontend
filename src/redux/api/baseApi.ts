@@ -40,22 +40,18 @@ const baseQueryWithRefreshToken: BaseQueryFn<
             extraOptions
         );
 
-        console.log(refreshResult);
-
         if (refreshResult?.data?.success) {
             const user = (api.getState() as RootState).auth.user;
             const newAccessToken = refreshResult.data.data.access_token;
             const newRefreshToken = refreshResult.data.data.refresh_token;
 
             Cookies.set("accessToken", newAccessToken, {
-                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
                 path: "/"
             });
 
             Cookies.set("refreshToken", newRefreshToken, {
-                expires: 60 / (24 * 60),
                 secure: true,
                 sameSite: "strict",
                 path: "/"
