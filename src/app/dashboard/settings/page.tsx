@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Card, Button, Tabs } from "antd";
-import { UserOutlined, LockOutlined, SaveOutlined } from "@ant-design/icons";
+import { Card, Tabs } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import ProfileSettings from "./_components/ProfileSettings";
 import ChangePassword from "./_components/ChangePassword";
 
@@ -31,11 +31,6 @@ const SettingsPage = () => {
                         },
                     ]}
                 />
-                <div className="flex justify-end pt-6 mt-6 border-t border-slate-700/50">
-                    <Button type="primary" icon={<SaveOutlined />} className="bg-blue-600 border-none px-4!">
-                        Save Changes
-                    </Button>
-                </div>
             </Card>
         </div>
     );

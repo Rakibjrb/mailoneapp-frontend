@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button, Form, Input, Avatar, } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { SaveOutlined, UserOutlined } from "@ant-design/icons";
 
 const ProfileSettings = () => {
     return (
@@ -27,6 +27,12 @@ const ProfileSettings = () => {
                 <Form.Item label={<span className="text-slate-300">Bio</span>}>
                     <Input.TextArea rows={4} placeholder="Software Engineer & Designer" className="bg-slate-900/50! border-slate-700! text-white!" />
                 </Form.Item>
+
+                <div className="flex justify-end pt-6 mt-6 border-t border-slate-700/50">
+                    <Button type="primary" icon={<SaveOutlined />} className="bg-blue-600 border-none px-4!">
+                        Save Changes
+                    </Button>
+                </div>
             </Form>
         </div>
     );
