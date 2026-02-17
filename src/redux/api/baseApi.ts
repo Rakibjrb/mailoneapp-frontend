@@ -3,9 +3,12 @@ import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery } from "@reduxjs/tool
 import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/authSlice";
 import Cookies from "js-cookie";
+import axios from "axios";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:8001/api";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.NEXT_PUBLIC_BASE_API || "http://localhost:8001/api",
+    baseUrl: baseUrl,
     credentials: "include",
     prepareHeaders: (headers: Headers, { getState }) => {
         const token = (getState() as RootState).auth.token || Cookies.get("accessToken");
@@ -28,16 +31,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     }
 
     if (result?.error?.status === 401) {
-        const refreshResult: any = await baseQuery(
+        const refreshResult: any = await axios.post(baseUrl + '/auth/refresh-token',
             {
-                url: '/auth/refresh-token',
-                method: 'POST',
-                body: {
-                    refreshToken: Cookies.get("refreshToken") || null,
-                }
-            },
-            api,
-            extraOptions
+                refreshToken: Cookies.get("refreshToken") || null,
+            }
         );
 
         if (refreshResult?.data?.success) {
@@ -48,13 +45,15 @@ const baseQueryWithRefreshToken: BaseQueryFn<
             Cookies.set("accessToken", newAccessToken, {
                 secure: true,
                 sameSite: "strict",
-                path: "/"
+                path: "/",
+                expires: 30,
             });
 
             Cookies.set("refreshToken", newRefreshToken, {
                 secure: true,
                 sameSite: "strict",
-                path: "/"
+                path: "/",
+                expires: 30,
             });
 
             api.dispatch(

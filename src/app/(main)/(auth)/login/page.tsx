@@ -32,13 +32,15 @@ export default function LoginPage(): JSX.Element {
             Cookies.set("accessToken", res.data.access_token, {
                 secure: true,
                 sameSite: "strict",
-                path: "/"
+                path: "/",
+                expires: 30,
             });
 
             Cookies.set("refreshToken", res.data.refresh_token, {
                 secure: true,
                 sameSite: "strict",
-                path: "/"
+                path: "/",
+                expires: 30,
             });
 
             dispatch(setUser({
