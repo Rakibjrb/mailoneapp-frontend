@@ -31,13 +31,13 @@ const baseQueryWithRefreshToken: BaseQueryFn<
     }
 
     if (result?.error?.status === 401) {
-        const refreshResult: any = await axios.post(baseUrl + '/auth/refresh-token',
-            {
-                refreshToken: Cookies.get("refreshToken") || null,
-            }
-        );
+        try {
+            const refreshResult: any = await axios.post(baseUrl + '/auth/refresh-token',
+                {
+                    refreshToken: Cookies.get("refreshToken") || null,
+                }
+            );
 
-        if (refreshResult?.data?.success) {
             const user = (api.getState() as RootState).auth.user;
             const newAccessToken = refreshResult.data.data.access_token;
             const newRefreshToken = refreshResult.data.data.refresh_token;
@@ -64,9 +64,10 @@ const baseQueryWithRefreshToken: BaseQueryFn<
             );
 
             result = await baseQuery(args, api, extraOptions);
-        } else {
-            api.dispatch(logout());
+        } catch {
             console.log("Logout trigered!");
+            api.dispatch(logout());
+            window.location.href = "/login";
         }
     }
 
