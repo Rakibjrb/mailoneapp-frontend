@@ -30,7 +30,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
         console.log("User not found");
     }
 
-    if (result?.error?.status === 401) {
+    if (result?.error?.status === 401 && Cookies.get("refreshToken")) {
         try {
             const refreshResult: any = await axios.post(baseUrl + '/auth/refresh-token',
                 {
@@ -67,7 +67,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
         } catch {
             console.log("Logout trigered!");
             api.dispatch(logout());
-            window.location.href = "/login";
+            window.location.replace("/login");
         }
     }
 
