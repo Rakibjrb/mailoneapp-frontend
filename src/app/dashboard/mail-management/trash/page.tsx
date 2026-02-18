@@ -34,8 +34,8 @@ const TrashPage = () => {
         try {
             setRestoreMailId(id);
             await restoreMail({ id }).unwrap();
+            await refetchTrashedMail();
             toast("Mail restored successfully", "success");
-            refetchTrashedMail();
         } catch (error: any) {
             toast(error?.message || "Failed to restore mail", "error");
         } finally {

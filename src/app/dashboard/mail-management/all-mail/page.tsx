@@ -55,11 +55,11 @@ const AllMailPage = () => {
         try {
             setUpdateMailSelectionId(id);
             await updateMailSelection({ id, isSelected }).unwrap();
+            await refetchAllMail();
             toast("Mail selection updated successfully", "success");
         } catch (error: any) {
             toast(error?.message || "Failed to update mail selection", "error");
         } finally {
-            refetchAllMail();
             setUpdateMailSelectionId(null);
         }
     };
@@ -68,11 +68,11 @@ const AllMailPage = () => {
         try {
             setDeleteMailId(id);
             await deleteMail(id).unwrap();
+            await refetchAllMail();
             toast("Mail successfully moved to trash", "warning");
         } catch (error: any) {
             toast(error?.message || "Failed to trash mail", "error");
         } finally {
-            refetchAllMail();
             setDeleteMailId(null);
         }
     };
@@ -193,8 +193,8 @@ export default AllMailPage;
 
 function SelectButton({ record, isLoading, onClick }: { record: DataType, isLoading: boolean, onClick: () => void }) {
     return (
-        <Button onClick={onClick} disabled={isLoading} loading={isLoading} className="text-blue-400! px-4! py-1! hover:text-blue-500!">
-            {isLoading ? "Updating" : record.isSelected ? "Unselect" : "Select"}
+        <Button onClick={onClick} disabled={isLoading} loading={isLoading} className={`px-4! py-1! ${record.isSelected ? "border-green-400! hover:border-green-500! text-green-400! hover:text-green-500!" : "border-blue-400! hover:border-blue-500! text-blue-400! hover:text-blue-500!"}`}>
+            {isLoading ? "Updating" : record.isSelected ? "Selected" : "Select"}
         </Button>
     );
 }
