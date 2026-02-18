@@ -5,7 +5,15 @@ export const profileApi = baseApi.injectEndpoints({
         getProfile: builder.query({
             query: () => "/manage/user/profile",
         }),
+
+        updateProfile: builder.mutation({
+            query: (data) => ({
+                url: "/manage/user/profile",
+                method: "PATCH",
+                body: data,
+            }),
+        }),
     }),
 });
 
-export const { useGetProfileQuery } = profileApi;
+export const { useGetProfileQuery, useUpdateProfileMutation } = profileApi;
