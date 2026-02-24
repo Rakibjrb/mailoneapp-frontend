@@ -30,6 +30,17 @@ const mailApi = baseApi.injectEndpoints({
             invalidatesTags: ["Mail"]
         }),
 
+        updateMultipleMailStatus: builder.mutation({
+            query: (data) => {
+                return {
+                    url: `/management/mail/update/many/mails`,
+                    method: "PATCH",
+                    body: data,
+                }
+            },
+            invalidatesTags: ["Mail"]
+        }),
+
         deleteMail: builder.mutation({
             query: (id: string) => {
                 return {
@@ -75,4 +86,4 @@ const mailApi = baseApi.injectEndpoints({
     })
 });
 
-export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation, useDeleteMultipleMailMutation, useUploadSingleMailMutation, useUploadBulkMailMutation } = mailApi;
+export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useUpdateMultipleMailStatusMutation, useDeleteMailMutation, useDeleteMultipleMailMutation, useUploadSingleMailMutation, useUploadBulkMailMutation } = mailApi;

@@ -3,7 +3,7 @@
 {/* eslint-disable @typescript-eslint/no-explicit-any */ }
 
 import React, { useState } from "react";
-import { Card, Table, Button, Input, Checkbox } from "antd";
+import { Card, Table, Button, Input } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined, PlusOutlined, CheckOutlined } from "@ant-design/icons";
 import FilterModal from "./_components/FilterModal";
@@ -13,18 +13,20 @@ import ErrorDataLoading from "@/components/shared/ui/errordataloading";
 import { useToast } from "@/context/ToastContext";
 import { DataType } from "@/types/data.types";
 import { useRouter } from "next/navigation";
+import StatusModal from "./_components/StatusModal";
 
 const AllMailPage = () => {
+    const [isStatusModalOpen, setIsStatusModalOpen] = useState<boolean>(false);
     const [updateMailSelectionId, setUpdateMailSelectionId] = useState<string | null>(null);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [deleteMailId, setDeleteMailId] = useState<string | null>(null);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [pagination, setPagination] = useState<{
         page: number;
         limit: number;
     }>({
         page: 1,
-        limit: 10,
+        limit: 100,
     });
     const [searchText, setSearchText] = useState<string>("");
     const [filterValues, setFilterValues] = useState<{
@@ -191,6 +193,7 @@ const AllMailPage = () => {
                         Cancel
                     </Button>
                     <Button
+                        onClick={() => setIsStatusModalOpen(true)}
                         className="bg-blue-500! border-blue-500! text-white! hover:bg-blue-600! hover:border-blue-600! hover:text-white!"
                     >
                         Update Status
@@ -237,6 +240,16 @@ const AllMailPage = () => {
                 open={isFilterModalOpen}
                 onClose={() => setIsFilterModalOpen(false)}
                 onApply={handleApplyFilter}
+            />
+
+            <StatusModal
+                open={isStatusModalOpen}
+                onClose={() => {
+                    setIsStatusModalOpen(false);
+                    setSelectedIds([]);
+                }}
+                mailIds={selectedIds}
+                refetch={refetchAllMail}
             />
         </div>
     );
