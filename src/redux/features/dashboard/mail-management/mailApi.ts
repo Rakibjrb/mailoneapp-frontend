@@ -41,11 +41,11 @@ const mailApi = baseApi.injectEndpoints({
         }),
 
         deleteMultipleMail: builder.mutation({
-            query: (ids: string[]) => {
+            query: (mailIds: string[]) => {
                 return {
                     url: `/management/mail/delete/many/mails`,
                     method: "DELETE",
-                    body: ids,
+                    body: { mailIds },
                 }
             },
             invalidatesTags: ["Mail"]
