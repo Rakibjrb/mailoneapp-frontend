@@ -40,6 +40,17 @@ const mailApi = baseApi.injectEndpoints({
             invalidatesTags: ["Mail"]
         }),
 
+        deleteMultipleMail: builder.mutation({
+            query: (ids: string[]) => {
+                return {
+                    url: `/management/mail/delete/many/mails`,
+                    method: "DELETE",
+                    body: ids,
+                }
+            },
+            invalidatesTags: ["Mail"]
+        }),
+
         uploadSingleMail: builder.mutation({
             query: (data) => {
                 return {
@@ -64,4 +75,4 @@ const mailApi = baseApi.injectEndpoints({
     })
 });
 
-export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation, useUploadSingleMailMutation, useUploadBulkMailMutation } = mailApi;
+export const { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation, useDeleteMultipleMailMutation, useUploadSingleMailMutation, useUploadBulkMailMutation } = mailApi;

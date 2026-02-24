@@ -3,11 +3,11 @@
 {/* eslint-disable @typescript-eslint/no-explicit-any */ }
 
 import React, { useState } from "react";
-import { Card, Table, Button, Input } from "antd";
+import { Card, Table, Button, Input, Checkbox } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import { SearchOutlined, ReloadOutlined, FilterOutlined, DeleteOutlined, PlusOutlined, CheckOutlined } from "@ant-design/icons";
 import FilterModal from "./_components/FilterModal";
-import { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation } from "@/redux/features/dashboard/mail-management/mailApi";
+import { useGetAllMailQuery, useUpdateMailSelectionMutation, useDeleteMailMutation, useDeleteMultipleMailMutation } from "@/redux/features/dashboard/mail-management/mailApi";
 import Loading from "@/components/shared/ui/loading";
 import ErrorDataLoading from "@/components/shared/ui/errordataloading";
 import { useToast } from "@/context/ToastContext";
@@ -18,6 +18,7 @@ const AllMailPage = () => {
     const [updateMailSelectionId, setUpdateMailSelectionId] = useState<string | null>(null);
     const [deleteMailId, setDeleteMailId] = useState<string | null>(null);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState<boolean>(false);
+    const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [pagination, setPagination] = useState<{
         page: number;
         limit: number;
@@ -48,8 +49,8 @@ const AllMailPage = () => {
     const meta = response?.meta || {};
 
     const [updateMailSelection] = useUpdateMailSelectionMutation();
-
     const [deleteMail] = useDeleteMailMutation();
+    const [deleteMultipleMail, { isLoading: isLoadingMultipleDelete }] = useDeleteMultipleMailMutation();
 
     const handleUpdateMailSelection = async (id: string, isSelected: string) => {
         try {
@@ -77,6 +78,28 @@ const AllMailPage = () => {
         }
     };
 
+    const handleMultipleSelection = (id: string) => {
+        setSelectedIds((prev) => {
+            if (prev.includes(id)) {
+                return prev.filter((prevId) => prevId !== id);
+            } else {
+                return [...prev, id];
+            }
+        });
+    };
+
+    const handleMultipleDelete = async () => {
+        try {
+            await deleteMultipleMail(selectedIds).unwrap();
+            await refetchAllMail();
+            toast("Mails successfully moved to trash, still you can restore from trash", "warning");
+        } catch (error: any) {
+            toast(error?.message || "Failed to trash mails", "error");
+        } finally {
+            setSelectedIds([]);
+        }
+    }
+
     const columns: ColumnsType<DataType> = [
         {
             title: 'Name',
@@ -97,12 +120,22 @@ const AllMailPage = () => {
             render: (text: string) => <span className="text-slate-400 text-sm">{text}</span>,
         },
         {
+            title: 'Status',
+            dataIndex: 'isSelected',
+            key: 'isSelected',
+            align: "center",
+            render: (text: string) => <div className="flex justify-center items-center"><div className={`w-4 h-4 rounded-full ${text ? "bg-green-400" : "bg-red-400"}`}></div></div>,
+        },
+        {
             title: 'Action',
             key: 'action',
             align: "right",
             render: (record: DataType) => <div className="flex gap-3 items-center justify-end">
-                <SelectButton record={record} isLoading={record._id === updateMailSelectionId} onClick={() => handleUpdateMailSelection(record._id, record.isSelected ? "false" : "true")} />
-                <TrashButton isLoading={record._id === deleteMailId} onClick={() => handleDeleteMail(record._id)} />
+                {selectedIds.length ? "" : <>
+                    <SelectButton record={record} isLoading={record._id === updateMailSelectionId} onClick={() => handleUpdateMailSelection(record._id, record.isSelected ? "false" : "true")} />
+                    <TrashButton isLoading={record._id === deleteMailId} onClick={() => handleDeleteMail(record._id)} />
+                </>}
+                <MultipleSelectButton onClick={() => handleMultipleSelection(record._id)} icon={selectedIds.includes(record._id) ? <CheckOutlined /> : <></>} />
             </div>
         },
     ];
@@ -123,8 +156,7 @@ const AllMailPage = () => {
 
     return (
         <div className="space-y-6">
-            <div className="flex justify-between items-end gap-2">
-
+            {!selectedIds.length ? <div className="flex justify-between items-end gap-2">
                 <Input
                     onChange={handleSearch}
                     prefix={<SearchOutlined className="text-slate-400!" />}
@@ -150,6 +182,27 @@ const AllMailPage = () => {
                     </Button>
                 </div>
             </div>
+                :
+                <div className="flex gap-2 justify-end items-center">
+                    <Button
+                        onClick={() => setSelectedIds([])}
+                        className="border-slate-700! text-slate-300! hover:bg-slate-700! hover:border-slate-600! hover:text-slate-200!"
+                    >
+                        Cancel
+                    </Button>
+                    <Button
+                        className="bg-blue-500! border-blue-500! text-white! hover:bg-blue-600! hover:border-blue-600! hover:text-white!"
+                    >
+                        Update Status
+                    </Button>
+                    <Button
+                        loading={isLoadingMultipleDelete}
+                        onClick={handleMultipleDelete}
+                        className="bg-rose-500! border-rose-500! text-white! hover:bg-rose-600! hover:border-rose-600! hover:text-white!"
+                    >
+                        Delete {selectedIds.length} Mail
+                    </Button>
+                </div>}
 
             {allMailLoading && <Loading tip="Loading All Mail" size="default" />}
 
@@ -193,16 +246,22 @@ export default AllMailPage;
 
 function SelectButton({ record, isLoading, onClick }: { record: DataType, isLoading: boolean, onClick: () => void }) {
     return (
-        <Button onClick={onClick} disabled={isLoading} loading={isLoading} className={`px-4! py-1! ${record.isSelected ? "border-green-400! hover:border-green-500! text-green-400! hover:text-green-500!" : "border-blue-400! hover:border-blue-500! text-blue-400! hover:text-blue-500!"}`}>
-            {isLoading ? "Updating" : record.isSelected ? "Selected" : "Select"}
+        <Button onClick={onClick} disabled={isLoading} loading={isLoading} className={`px-3! py-1! ${record.isSelected ? "border-green-400! hover:border-green-500! text-green-400! hover:text-green-500!" : "border-blue-400! hover:border-blue-500! text-blue-400! hover:text-blue-500!"}`}>
+            <CheckOutlined />
         </Button>
     );
 }
 
 function TrashButton({ isLoading, onClick }: { isLoading: boolean, onClick: () => void }) {
     return (
-        <Button disabled={isLoading} loading={isLoading} onClick={onClick} className="text-rose-400! px-4! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
+        <Button disabled={isLoading} loading={isLoading} onClick={onClick} className="text-rose-400! px-3! py-1! hover:text-rose-500! border-rose-400! hover:border-rose-500!">
             <DeleteOutlined />
         </Button>
+    );
+}
+
+function MultipleSelectButton({ onClick, icon }: { onClick: () => void, icon: React.ReactNode }) {
+    return (
+        <Button onClick={onClick} icon={icon} />
     );
 }
