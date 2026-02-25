@@ -1,16 +1,94 @@
 "use client";
 
+{/* eslint-disable @typescript-eslint/no-explicit-any */ }
+
 import React from "react";
-import { Card, Form, Input, Button } from "antd";
-import {
-    SaveOutlined,
-    ApiOutlined,
-    UserOutlined,
-    LockOutlined,
-    MailOutlined
-} from "@ant-design/icons";
+import { Card } from "antd";
+import { useCreateConfigMutation, useGetConfigsQuery, useTestConfigMutation, useUpdateConfigMutation } from "@/redux/features/dashboard/configurations/configApi";
+import Loading from "@/components/shared/ui/loading";
+import ConfigForm from "./_components/ConfigForm";
+import { useToast } from "@/context/ToastContext";
 
 const ConfigurationsPage = () => {
+    const { toast } = useToast();
+
+    const { data, isLoading: isConfigsLoading, refetch: refetchConfigs } = useGetConfigsQuery({});
+    const configs = data?.data || [];
+    const [createConfig, { isLoading: isConfigCreateLoading }] = useCreateConfigMutation();
+    const [updateConfig, { isLoading: isConfigUpdateLoading }] = useUpdateConfigMutation();
+    const [testConfig, { isLoading: isConfigTestLoading }] = useTestConfigMutation();
+
+    const handleCreateConfig = async (data: any) => {
+        const config = {
+            appName: data.appName,
+            host: data.host,
+            port: Number(data.port),
+            secure: data.secure,
+            auth: {
+                user: data.user,
+                pass: data.pass
+            }
+        }
+        try {
+            await createConfig(config).unwrap();
+            toast("config created successfully", "success");
+        } catch (error: any) {
+            toast(error?.data?.message || "config creation failed, something went wrong!", "error");
+        } finally {
+            refetchConfigs();
+        }
+    }
+
+    const handleUpdateConfig = async (data: any) => {
+        const config: any = {};
+
+        if (data.appName) config.appName = data.appName;
+        if (data.host) config.host = data.host;
+        if (data.port) config.port = Number(data.port);
+        if (data.secure) config.secure = data.secure;
+        if (data.user) config.auth = { user: data.user };
+        if (data.pass) config.auth = { pass: data.pass };
+        if (data.user && data.pass) config.auth = { user: data.user, pass: data.pass };
+        config.isActive = data.isActive || false;
+        config.configId = configs[0]?._id;
+
+        try {
+            await updateConfig(config).unwrap();
+            toast("config updated successfully", "success");
+        } catch (error: any) {
+            toast(error?.data?.message || "config update failed, something went wrong!", "error");
+        } finally {
+            refetchConfigs();
+        }
+    };
+
+    const handleTest = async () => {
+        try {
+            await testConfig({}).unwrap();
+            toast("config test successful", "success");
+        } catch (error: any) {
+            toast(error?.data?.message || "config test failed, something went wrong!", "error");
+        } finally {
+            refetchConfigs();
+        }
+    }
+
+    if (isConfigsLoading) return <Loading size="default" tip="Loading configurations..." />
+
+    if (configs.length === 0) return (
+        <div className="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-6xl mx-auto">
+            <Card
+                className="w-full bg-slate-800/40! border-slate-700/50! backdrop-blur-md! shadow-2xl relative overflow-hidden"
+                variant="outlined"
+            >
+                <h4 className="text-xl font-semibold mb-6 text-slate-400">Create your SMTP mail server configuration</h4>
+                <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+                <ConfigForm submit={{ onSubmit: handleCreateConfig, isLoading: isConfigCreateLoading }} isRequired={true} />
+            </Card>
+        </div>
+    );
+
     return (
         <div className="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-6xl mx-auto">
             <Card
@@ -21,65 +99,7 @@ const ConfigurationsPage = () => {
                 {/* Decorative background blur element */}
                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
 
-                <Form layout="vertical" className="relative z-10 space-y-5">
-                    <Form.Item
-                        label={<span className="text-slate-300 font-medium">Sender Name</span>}
-                        name="senderName"
-                        tooltip="The name that will appear as the sender in emails."
-                        initialValue="MailOne System"
-                    >
-                        <Input
-                            prefix={<UserOutlined className="text-slate-500" />}
-                            placeholder="e.g. Acme Corp Support"
-                            className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-600! h-11!"
-                        />
-                    </Form.Item>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <Form.Item
-                            label={<span className="text-slate-300 font-medium">SMTP User</span>}
-                            name="smtpUser"
-                            className="mb-0"
-                            rules={[{ required: true, message: 'Required' }]}
-                        >
-                            <Input
-                                prefix={<MailOutlined className="text-slate-500" />}
-                                placeholder="user@smtp.com"
-                                className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-600! h-11!"
-                            />
-                        </Form.Item>
-
-                        <Form.Item
-                            label={<span className="text-slate-300 font-medium">SMTP Password</span>}
-                            name="smtpPassword"
-                            className="mb-0"
-                            rules={[{ required: true, message: 'Required' }]}
-                        >
-                            <Input.Password
-                                prefix={<LockOutlined className="text-slate-500" />}
-                                placeholder="••••••••••••"
-                                className="bg-slate-900/50! border-slate-700! text-white! placeholder:text-slate-600! h-11!"
-                            />
-                        </Form.Item>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4 border-t border-slate-700/50">
-                        <Button
-                            icon={<ApiOutlined />}
-                            className="h-11! flex-1 bg-transparent! border-slate-600! text-slate-300! hover:text-white! hover:border-slate-400!"
-                        >
-                            Test Configuration
-                        </Button>
-                        <Button
-                            type="primary"
-                            icon={<SaveOutlined />}
-                            htmlType="submit"
-                            className="h-11! flex-1 bg-blue-600! border-none! text-white! font-semibold hover:bg-blue-500! shadow-lg shadow-blue-900/20"
-                        >
-                            Save Settings
-                        </Button>
-                    </div>
-                </Form>
+                <ConfigForm submit={{ onSubmit: handleUpdateConfig, isLoading: isConfigUpdateLoading }} test={{ handleTest, isConfigTestLoading }} isRequired={false} />
             </Card>
         </div>
     );
