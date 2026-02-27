@@ -8,6 +8,7 @@ import { useCreateConfigMutation, useGetConfigsQuery, useTestConfigMutation, use
 import Loading from "@/components/shared/ui/loading";
 import ConfigForm from "./_components/ConfigForm";
 import { useToast } from "@/context/ToastContext";
+import { IConfig } from "@/types/config.types";
 
 const ConfigurationsPage = () => {
     const { toast } = useToast();
@@ -90,7 +91,50 @@ const ConfigurationsPage = () => {
     );
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-[80vh] w-full max-w-6xl mx-auto">
+        <div className="w-full max-w-6xl mx-auto">
+            <div className="mb-6">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-6 text-slate-400">Available Configurations</h2>
+                <div className="space-y-6">
+                    {
+                        configs.map((config: IConfig) => (
+                            <Card key={config._id}
+                                title={<h4 className="text-xl font-semibold mb-4 text-slate-400">{`Config Name : ${config.appName}`}</h4>}
+                                className="w-full bg-slate-800/40! border-slate-700/50! backdrop-blur-md! shadow-2xl relative overflow-hidden"
+                                variant="outlined"
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">Host</p>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">{config.host}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">Port</p>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">{config.port}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">Secure</p>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">{config.secure ? "True" : "False"}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">User</p>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">{config.auth.user}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">Pass</p>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">********</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">Active</p>
+                                        <p className="text-lg font-semibold mb-2 text-slate-400">{config.isActive ? <div className="w-4 h-4 rounded-full bg-green-500" /> : <div className="w-4 h-4 rounded-full bg-red-500" />}</p>
+                                    </div>
+                                </div>
+                                <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+                            </Card>
+                        ))
+                    }
+                </div>
+            </div>
+
             <Card
                 className="w-full bg-slate-800/40! border-slate-700/50! backdrop-blur-md! shadow-2xl relative overflow-hidden"
                 variant="outlined"

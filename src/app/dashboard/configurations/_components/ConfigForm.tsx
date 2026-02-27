@@ -95,7 +95,6 @@ const ConfigForm = ({ submit, test, isRequired }: Props) => {
                     label={<span className="text-slate-300 font-medium">Host</span>}
                     name="host"
                     tooltip="Set the host of your SMTP server"
-                    initialValue="smtp.gmail.com"
                     rules={[
                         {
                             required: isRequired,
@@ -113,7 +112,6 @@ const ConfigForm = ({ submit, test, isRequired }: Props) => {
                     label={<span className="text-slate-300 font-medium">Port</span>}
                     name="port"
                     tooltip="Set the port of your SMTP server"
-                    initialValue="587"
                     rules={[
                         {
                             required: isRequired,
