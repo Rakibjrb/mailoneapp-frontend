@@ -90,6 +90,7 @@ const TemplateForm = ({ submit, isUpdate }: TemplateForm) => {
 
             <div className="pt-1">
                 <Button
+                    loading={submit.isLoading}
                     type="primary"
                     icon={!isUpdate ? <PlusOutlined /> : <SaveOutlined />}
                     className="w-full h-11! bg-blue-600! border-none! text-white font-bold hover:bg-blue-500! transition-all shadow-lg shadow-blue-900/20 uppercase"
