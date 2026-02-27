@@ -125,7 +125,7 @@ const ConfigurationsPage = () => {
                                     </div>
                                     <div>
                                         <p className="text-lg font-semibold mb-2 text-slate-400">Active</p>
-                                        <p className="text-lg font-semibold mb-2 text-slate-400">{config.isActive ? <div className="w-4 h-4 rounded-full bg-green-500" /> : <div className="w-4 h-4 rounded-full bg-red-500" />}</p>
+                                        <div className="text-lg font-semibold mb-2 text-slate-400">{config.isActive ? <div className="w-4 h-4 rounded-full bg-green-500" /> : <div className="w-4 h-4 rounded-full bg-red-500" />}</div>
                                     </div>
                                 </div>
                                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />

@@ -9,12 +9,12 @@ import {
     MailOutlined,
     AppstoreOutlined,
     FileTextOutlined,
-    EditOutlined,
     ControlOutlined,
     DeleteOutlined,
     InboxOutlined,
     LogoutOutlined,
-    HomeOutlined
+    HomeOutlined,
+    PlusOutlined
 } from "@ant-design/icons";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -62,7 +62,7 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             label: <Link href="/dashboard">Dashboard</Link>,
         },
         {
-            key: "/dashboard/mail-management",
+            key: "/dashboard/mail-management/",
             icon: <MailOutlined />,
             label: <div>Mail Management</div>,
             children: [
@@ -79,14 +79,21 @@ const Sidebar = ({ collapsed, setCollapsed }: SidebarProps) => {
             ]
         },
         {
-            key: "/dashboard/templates",
+            key: "/dashboard/templates/",
             icon: <FileTextOutlined />,
-            label: <Link href="/dashboard/templates">Templates</Link>,
-        },
-        {
-            key: "/dashboard/customize-template",
-            icon: <EditOutlined />,
-            label: <Link href="/dashboard/customize-template">Customize Template</Link>,
+            label: <div>Template Management</div>,
+            children: [
+                {
+                    key: "/dashboard/templates",
+                    icon: <FileTextOutlined />,
+                    label: <Link href="/dashboard/templates">Templates</Link>,
+                },
+                {
+                    key: "/dashboard/templates/create",
+                    icon: <PlusOutlined />,
+                    label: <Link href="/dashboard/templates/create">Create Template</Link>,
+                }
+            ]
         },
         {
             key: "/dashboard/configurations",
