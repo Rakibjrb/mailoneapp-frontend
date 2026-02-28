@@ -27,6 +27,15 @@ const templatesApi = baseApi.injectEndpoints({
             invalidatesTags: ["Templates"]
         }),
 
+        updateTemplate: builder.mutation({
+            query: ({ id, data }) => ({
+                url: `/manage/template/update/${id}`,
+                method: "PATCH",
+                body: data
+            }),
+            invalidatesTags: ["Templates"]
+        }),
+
         deleteTemplate: builder.mutation({
             query: (id) => ({
                 url: `/manage/template/delete/${id}`,
@@ -37,4 +46,4 @@ const templatesApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetTemplatesQuery, useCreateTemplateMutation, useDeleteTemplateMutation } = templatesApi;
+export const { useGetTemplatesQuery, useCreateTemplateMutation, useUpdateTemplateMutation, useDeleteTemplateMutation } = templatesApi;
