@@ -18,6 +18,13 @@ const templatesApi = baseApi.injectEndpoints({
             providesTags: ["Templates"]
         }),
 
+        getTemplateById: builder.query({
+            query: (id) => ({
+                url: `/manage/template/get/${id}`,
+                method: "GET"
+            })
+        }),
+
         createTemplate: builder.mutation({
             query: (data) => ({
                 url: "/manage/template/create",
@@ -46,4 +53,4 @@ const templatesApi = baseApi.injectEndpoints({
     })
 })
 
-export const { useGetTemplatesQuery, useCreateTemplateMutation, useUpdateTemplateMutation, useDeleteTemplateMutation } = templatesApi;
+export const { useGetTemplatesQuery, useGetTemplateByIdQuery, useCreateTemplateMutation, useUpdateTemplateMutation, useDeleteTemplateMutation } = templatesApi;

@@ -9,6 +9,7 @@ import { Button, Form, Input } from "antd";
 import React from "react";
 
 type TemplateForm = {
+    initialValues?: any;
     submit: {
         onSubmit: (data: TemplateData) => void;
         isLoading: boolean;
@@ -16,7 +17,7 @@ type TemplateForm = {
     isUpdate: boolean;
 }
 
-const TemplateForm = ({ submit, isUpdate }: TemplateForm) => {
+const TemplateForm = ({ initialValues, submit, isUpdate }: TemplateForm) => {
     const { toast } = useToast();
     const [form] = Form.useForm();
 
@@ -42,7 +43,7 @@ const TemplateForm = ({ submit, isUpdate }: TemplateForm) => {
     };
 
     return (
-        <Form form={form} onFinish={onFinish} layout="vertical" className="space-y-2">
+        <Form initialValues={initialValues} form={form} onFinish={onFinish} layout="vertical" className="space-y-2">
             <div className="flex flex-col lg:flex-row gap-4">
                 <Form.Item
                     className="w-full"
