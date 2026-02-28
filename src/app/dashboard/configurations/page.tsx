@@ -66,7 +66,7 @@ const ConfigurationsPage = () => {
     const handleTest = async () => {
         try {
             await testConfig({}).unwrap();
-            toast("config test successful", "success");
+            toast("configuration test successful, you will receive an email soon", "success");
         } catch (error: any) {
             toast(error?.data?.message || "config test failed, something went wrong!", "error");
         } finally {

@@ -27,7 +27,7 @@ const TemplateForm = ({ submit, isUpdate }: TemplateForm) => {
             subject,
             html,
             plainText,
-            variables: [],
+            variables: ["{{no-var}}"],
         }
 
         const hasVariables = ["{{name}}", "{{date}}"].filter((v: string) => html.includes(v));
